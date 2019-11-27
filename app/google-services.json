@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "668937038903",
+    "firebase_url": "https://masocctest.firebaseio.com",
+    "project_id": "masocctest",
+    "storage_bucket": "masocctest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668937038903:android:afc1d8d309cad953",
+        "android_client_info": {
+          "package_name": "com.example.masocc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668937038903-he3231rb5gkvsd7rehebam38ibqukf3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhAK_RWuCUM41zTocLGwgwwrgZvejZgNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668937038903-he3231rb5gkvsd7rehebam38ibqukf3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
