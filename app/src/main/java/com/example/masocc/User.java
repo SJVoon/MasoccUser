@@ -1,31 +1,67 @@
 package com.example.masocc;
 
 public class User {
-    private String username, email, icNumber,handphoneNumber, password, fullName;
+    private String username, email, icNumber,handphoneNumber, password, fullName, doctor;
+    private boolean isAssign;
 
-    public User(){
+    private static User ourInstance;
+
+    public static User getInstance() {
+        if(ourInstance == null){
+            ourInstance = new User();
+        }
+        return ourInstance;
+    }
+
+    private User(){
 
     }
 
-    public User(String fullName, String email, String icNumber, String handphoneNumber, String password) {
-        this.fullName = fullName;
-        this.email = email;
-        this.icNumber = icNumber;
-        this.handphoneNumber = handphoneNumber;
-        this.password = password;
+    public String getDoctor() {
+        return doctor;
     }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public boolean isAssigned() {
+        if(this.doctor.isEmpty()){
+            return false;
+        }
+        else
+            return true;
+    }
+
+//    public void setUser(String fullName, String email, String icNumber, String handphoneNumber, String password) {
+//        this.fullName = fullName;
+//        this.email = email;
+//        this.icNumber = icNumber;
+//        this.handphoneNumber = handphoneNumber;
+//        this.password = password;
+//    }
 
     public void setIcNumber(String icNumber) {
         this.icNumber = icNumber;
     }
 
-    public User(String username, String fullName, String email, String icNumber, String handphoneNumber, String password) {
+//    public void setUser(String username, String fullName, String email, String icNumber, String handphoneNumber, String password) {
+//        this.username = username;
+//        this.fullName = fullName;
+//        this.email = email;
+//        this.icNumber = icNumber;
+//        this.handphoneNumber = handphoneNumber;
+//        this.password = password;
+//    }
+
+    public void setUser(String username, String fullName, String email, String icNumber, String handphoneNumber, String password, String doctor) {
         this.username = username;
         this.fullName = fullName;
         this.email = email;
         this.icNumber = icNumber;
         this.handphoneNumber = handphoneNumber;
         this.password = password;
+        this.doctor = doctor;
     }
 
     public String getFullName() {

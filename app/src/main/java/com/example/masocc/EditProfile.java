@@ -33,7 +33,7 @@ public class EditProfile extends AppCompatActivity {
     private Intent myIntent1, myIntent2, myIntent3, myIntent4;
     private Button btnEditProfile;
     private EditText etUsername, etICNumber, etEmail, etHandphoneNumber, etFullName;
-    private String username,icNumber,email,handphoneNumber, fullName;
+    private String username, icNumber, email, handphoneNumber, fullName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 define();
-                if(validate()) {
+                if (validate()) {
                     editProfile();
                 }
 
@@ -99,7 +99,7 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    private void setupUI(){
+    private void setupUI() {
         btnEditProfile = findViewById(R.id.button_edit_profile);
         etUsername = findViewById(R.id.edit_text_username);
         etFullName = findViewById(R.id.edit_text_fullname);
@@ -108,7 +108,7 @@ public class EditProfile extends AppCompatActivity {
         etHandphoneNumber = findViewById(R.id.edit_text_handphone_number);
     }
 
-    private void define(){
+    private void define() {
         username = etUsername.getText().toString().trim();
         icNumber = etICNumber.getText().toString().trim();
         email = etEmail.getText().toString().trim();
@@ -116,15 +116,15 @@ public class EditProfile extends AppCompatActivity {
         fullName = etFullName.getText().toString().trim();
     }
 
-    private void setData(){
-        etUsername.setText(currentUser.getInstance().getUser().getUsername());
-        etFullName.setText(currentUser.getInstance().getUser().getFullName());
-        etEmail.setText(currentUser.getInstance().getUser().getEmail());
-        etICNumber.setText(currentUser.getInstance().getUser().getIcNumber());
-        etHandphoneNumber.setText(currentUser.getInstance().getUser().getHandphoneNumber());
+    private void setData() {
+        etUsername.setText(User.getInstance().getUsername());
+        etFullName.setText(User.getInstance().getFullName());
+        etEmail.setText(User.getInstance().getEmail());
+        etICNumber.setText(User.getInstance().getIcNumber());
+        etHandphoneNumber.setText(User.getInstance().getHandphoneNumber());
     }
 
-    private boolean validate(){
+    private boolean validate() {
         boolean check = true;
 
         if (TextUtils.isEmpty(username)) {
@@ -150,53 +150,53 @@ public class EditProfile extends AppCompatActivity {
         return check;
     }
 
-    private void editProfile(){
-        if(currentUser.getInstance().getUser().getUsername() != username){
-            mDatabase.child(""+currentUser.getInstance().getUser().getUsername()).removeValue()
+    private void editProfile() {
+        if (User.getInstance().getUsername() != username) {
+            mDatabase.child("" + User.getInstance().getUsername()).removeValue()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            mDatabase = mDatabase.child(""+username);
-                            Map<String, String> userData = new HashMap<>();
+                                              @Override
+                                              public void onSuccess(Void aVoid) {
+                                                  mDatabase = mDatabase.child("" + username);
+                                                  Map<String, String> userData = new HashMap<>();
 
-                            User user = new User(fullName, email, icNumber, handphoneNumber, currentUser.getInstance().getUser().getPassword());
-                            user.setUsername(username);
+                                                  User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword(),User.getInstance().getDoctor());
 
-                            userData.put("username",user.getUsername());
-                            userData.put("fullname",user.getFullName());
-                            userData.put("email",user.getEmail());
-                            userData.put("icNumber", user.getIcNumber());
-                            userData.put("handphoneNumber",user.getHandphoneNumber());
-                            userData.put("password",user.getPassword());
 
-                            mDatabase.setValue(user)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
-                                            currentUser.getInstance().setUser(user);
-                                            SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("fullName", currentUser.getInstance().getUser().getFullName());
-                                            editor.putString("username", currentUser.getInstance().getUser().getUsername());
-                                            editor.putString("password", currentUser.getInstance().getUser().getPassword());
-                                            editor.putString("email",currentUser.getInstance().getUser().getEmail());
-                                            editor.putString("icNumber",currentUser.getInstance().getUser().getIcNumber());
-                                            editor.putString("handphoneNumber",currentUser.getInstance().getUser().getHandphoneNumber());
-                                            editor.apply();
-                                            finish();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(EditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
-                                            finish();
-                                        }
-                                    });
+//                            userData.put("username",user.getUsername());
+//                            userData.put("fullname",user.getFullName());
+//                            userData.put("email",user.getEmail());
+//                            userData.put("icNumber", user.getIcNumber());
+//                            userData.put("handphoneNumber",user.getHandphoneNumber());
+//                            userData.put("password",user.getPassword());
 
-                        }
-                        }
+                                                  mDatabase.setValue(User.getInstance())
+                                                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                              @Override
+                                                              public void onSuccess(Void aVoid) {
+                                                                  Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
+                                                                  SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+                                                                  SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                                  editor.putString("fullName", User.getInstance().getFullName());
+                                                                  editor.putString("username", User.getInstance().getUsername());
+                                                                  editor.putString("password", User.getInstance().getPassword());
+                                                                  editor.putString("email", User.getInstance().getEmail());
+                                                                  editor.putString("icNumber", User.getInstance().getIcNumber());
+                                                                  editor.putString("handphoneNumber", User.getInstance().getHandphoneNumber());
+                                                                  editor.putString("doctor", User.getInstance().getDoctor());
+                                                                  editor.apply();
+                                                                  finish();
+                                                              }
+                                                          })
+                                                          .addOnFailureListener(new OnFailureListener() {
+                                                              @Override
+                                                              public void onFailure(@NonNull Exception e) {
+                                                                  Toast.makeText(EditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
+                                                                  finish();
+                                                              }
+                                                          });
+
+                                              }
+                                          }
                     )
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -205,26 +205,34 @@ public class EditProfile extends AppCompatActivity {
                             finish();
                         }
                     });
-        }
-
-        else{
-            mDatabase = mDatabase.child(""+username);
+        } else {
+            mDatabase = mDatabase.child("" + username);
             Map<String, String> userData = new HashMap<>();
 
-            User user = new User(fullName, email, icNumber, handphoneNumber, currentUser.getInstance().getUser().getPassword());
-            user.setUsername(username);
+            User.getInstance().setUser(User.getInstance().getUsername(), fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword(), User.getInstance().getDoctor());
 
-            userData.put("username",user.getUsername());
-            userData.put("fullname",user.getFullName());
-            userData.put("email",user.getEmail());
-            userData.put("icNumber", user.getIcNumber());
-            userData.put("handphoneNumber",user.getHandphoneNumber());
-            userData.put("password",user.getPassword());
-            mDatabase.setValue(user)
+//            userData.put("username",user.getUsername());
+//            userData.put("fullname",user.getFullName());
+//            userData.put("email",user.getEmail());
+//            userData.put("icNumber", user.getIcNumber());
+//            userData.put("handphoneNumber",user.getHandphoneNumber());
+//            userData.put("password",user.getPassword());
+
+            mDatabase.setValue(User.getInstance())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
+                            SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("fullName", User.getInstance().getFullName());
+                            editor.putString("username", User.getInstance().getUsername());
+                            editor.putString("password", User.getInstance().getPassword());
+                            editor.putString("email", User.getInstance().getEmail());
+                            editor.putString("icNumber", User.getInstance().getIcNumber());
+                            editor.putString("handphoneNumber", User.getInstance().getHandphoneNumber());
+                            editor.putString("doctor", User.getInstance().getDoctor());
+                            editor.apply();
                             finish();
                         }
                     })

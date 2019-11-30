@@ -103,6 +103,7 @@ public class Profile extends AppCompatActivity {
                         editor.apply();
                         myIntent4 = new Intent(Profile.this, SignIn.class);
                         startActivity(myIntent4);
+                        finish();
                     }
                 });
 

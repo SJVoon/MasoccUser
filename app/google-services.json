@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:668937038903:android:afc1d8d309cad953",
+        "mobilesdk_app_id": "1:668937038903:android:1a366abc87ba0ff51ee3b2",
         "android_client_info": {
           "package_name": "com.example.masocc"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "668937038903-jkubl5hf6d5gk1fue5cn7cceav91k10p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.masocc",
+            "certificate_hash": "9ef7b5ca00cfd65a983faaca283612c469349e95"
+          }
+        },
         {
           "client_id": "668937038903-he3231rb5gkvsd7rehebam38ibqukf3k.apps.googleusercontent.com",
           "client_type": 3
@@ -21,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAhAK_RWuCUM41zTocLGwgwwrgZvejZgNE"
+          "current_key": "AIzaSyAr2G_IsAwDEh0kYxm9Tfx7Dl71xXweFgA"
         }
       ],
       "services": {

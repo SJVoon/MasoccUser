@@ -19,7 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Registration extends AppCompatActivity {
@@ -30,6 +32,7 @@ public class Registration extends AppCompatActivity {
     private String username,icNumber,email,handphoneNumber, password,confirmPassword, fullName;
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
+    private List<User> userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +41,17 @@ public class Registration extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference().child("users");
+        userList = new ArrayList<>();
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userList.clear();
 
+                for(DataSnapshot userSnapShot : dataSnapshot.getChildren()){
+                    User u = userSnapShot.getValue(User.class);
+                    userList.add(u);
+                }
             }
 
             @Override
@@ -68,15 +77,15 @@ public class Registration extends AppCompatActivity {
                 if(validate()) {
 
                     mDatabase = mDatabase.child(""+username);
-                    User user = new User(fullName, email, icNumber, handphoneNumber, password);
-                    user.setUsername(username);
+                    User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, password, "");
 
-                    mDatabase.setValue(user)
+                    mDatabase.setValue(User.getInstance())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(Registration.this, "Registration successful! Sign in now.", Toast.LENGTH_LONG).show();
                                         startActivity(myIntent2);
+                                        finish();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -84,6 +93,7 @@ public class Registration extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(Registration.this, "Registration Fail! Sign in now.", Toast.LENGTH_LONG).show();
                                         startActivity(myIntent2);
+                                        finish();
                                     }
                                 });
 
@@ -117,6 +127,13 @@ public class Registration extends AppCompatActivity {
 
     private boolean validate(){
         boolean check = true;
+
+        for(int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getUsername().matches(username)) {
+                Toast.makeText(getApplicationContext(), "Username is taken!", Toast.LENGTH_SHORT).show();
+                return check = false;
+            }
+        }
 
         if (TextUtils.isEmpty(username)) {
             Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();

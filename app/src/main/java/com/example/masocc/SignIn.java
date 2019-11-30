@@ -49,14 +49,14 @@ public class SignIn extends AppCompatActivity{
         myIntent = new Intent(this, MainActivity.class);
 
         if(j > 0){
-            User u = new User(
+            User.getInstance().setUser(
                     sharedPreferences.getString("username",null),
                     sharedPreferences.getString("fullName",null),
                     sharedPreferences.getString("email",null),
                     sharedPreferences.getString("icNumber",null),
                     sharedPreferences.getString("handphoneNumber",null),
-                    sharedPreferences.getString("password",null));
-            currentUser.getInstance().setUser(u);
+                    sharedPreferences.getString("password",null),
+                    sharedPreferences.getString("doctor",null));
             startActivity(myIntent);
             finish();
         }
@@ -122,26 +122,32 @@ public class SignIn extends AppCompatActivity{
             if(userList.get(i).getUsername().matches(un)){
                 if(userList.get(i).getPassword().matches(pw)){
                     //save current user
-                    currentUser.getInstance().setUser(userList.get(i));
+                    User.getInstance().setUsername(userList.get(i).getUsername());
+                    User.getInstance().setPassword(userList.get(i).getPassword());
+                    User.getInstance().setFullName(userList.get(i).getFullName());
+                    User.getInstance().setEmail(userList.get(i).getEmail());
+                    User.getInstance().setIcNumber(userList.get(i).getIcNumber());
+                    User.getInstance().setHandphoneNumber(userList.get(i).getHandphoneNumber());
+                    User.getInstance().setDoctor(userList.get(i).getDoctor());
 
                     //sharedPreference authenticate
                     if(sharedPreferences.getInt("key", 0) == 0) {
                         autoSave = 1;
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("key", autoSave);
-                        editor.putString("fullName", currentUser.getInstance().getUser().getFullName());
-                        editor.putString("username", currentUser.getInstance().getUser().getUsername());
-                        editor.putString("password", currentUser.getInstance().getUser().getPassword());
-                        editor.putString("email",currentUser.getInstance().getUser().getEmail());
-                        editor.putString("icNumber",currentUser.getInstance().getUser().getIcNumber());
-                        editor.putString("handphoneNumber",currentUser.getInstance().getUser().getHandphoneNumber());
+                        editor.putString("fullName", User.getInstance().getFullName());
+                        editor.putString("username", User.getInstance().getUsername());
+                        editor.putString("password", User.getInstance().getPassword());
+                        editor.putString("email",User.getInstance().getEmail());
+                        editor.putString("icNumber",User.getInstance().getIcNumber());
+                        editor.putString("handphoneNumber",User.getInstance().getHandphoneNumber());
+                        editor.putString("doctor",User.getInstance().getDoctor());
                         editor.apply();
                     }
                     return true;
                 }
                 errorMessage = "Password incorrect";
             }
-            System.out.println(userList.get(i).getUsername() + " xx " + un);
             errorMessage = "This user is not exist";
         }
         errorMessage = "Fail to login";
