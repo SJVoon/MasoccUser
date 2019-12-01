@@ -69,14 +69,14 @@ public class Exercise extends YouTubeBaseActivity {
     private int[] oriExerciseIdList2 = {R.raw.seated_bicycle_crunch,R.raw.seated_butterfly, R.raw.lateral_leg_raise, R.raw.squat_with_rotational_press,
             R.raw.wood_cutter, R.raw.empty_the_can, R.raw.standing_bicycle_crunch};
     private int exerciseCounter = 0;
-    private boolean pause_check, haveSaved = false, saved_check = false;
+    private boolean pause_check;
     private List<ExerciseRecord> exerciseRecordList;
     private FirebaseDatabase database;
     private FirebaseStorage storage;
     private DatabaseReference mDatabase;
     private StorageReference mStorage;
     private SharedPreferences sharedPreferences;
-
+    String key, recordKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +102,10 @@ public class Exercise extends YouTubeBaseActivity {
             //storage
             storage = FirebaseStorage.getInstance();
             mStorage = storage.getReference().child("userExerciseLevelOne");
-            mStorage = mStorage.child("" + currentUser.getInstance().getUser().getUsername());
 
             //database
             database = FirebaseDatabase.getInstance();
             mDatabase = database.getReference().child("userExerciseLevelOne");
-            mDatabase = mDatabase.child("" + currentUser.getInstance().getUser().getUsername());
         }
         else{
             for (int i = 0; i < currentExerciseList.length; i++) {
@@ -120,12 +118,10 @@ public class Exercise extends YouTubeBaseActivity {
             //storage
             storage = FirebaseStorage.getInstance();
             mStorage = storage.getReference().child("userExerciseLevelTwo");
-            mStorage = mStorage.child("" + currentUser.getInstance().getUser().getUsername());
 
             //database
             database = FirebaseDatabase.getInstance();
             mDatabase = database.getReference().child("userExerciseLevelTwo");
-            mDatabase = mDatabase.child("" + currentUser.getInstance().getUser().getUsername());
         }
 
         VideoView view = (VideoView)findViewById(R.id.video_view);
@@ -138,14 +134,16 @@ public class Exercise extends YouTubeBaseActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         date = df.format(c);
 
-        if (haveSaved) {
+
             mDatabase = mDatabase.child(date);
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
-                        ExerciseRecord u = userSnapShot.getValue(ExerciseRecord.class);
-                        exerciseRecordList.add(u);
+                        User u = userSnapShot.getValue(User.class);
+                        if(u.getUsername().equals(User.getInstance().getUsername())){
+                            key = userSnapShot.getKey();
+                        }
                     }
                 }
 
@@ -153,19 +151,8 @@ public class Exercise extends YouTubeBaseActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
-        }
-        else{
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-        }
 
         //setupUI
         handler = new Handler();
@@ -334,6 +321,7 @@ public class Exercise extends YouTubeBaseActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         feeling = input.getText().toString().trim();
+
                         saveExercise();
                     }
                 });
@@ -352,19 +340,35 @@ public class Exercise extends YouTubeBaseActivity {
     }
 
     public void saveExercise() {
+        List<String> temp = new ArrayList<>();
+        if(type.contentEquals("exercise level one")) {
+            for (int i = 0; i < oriExerciseList1.length; i++) {
+                for (int j = 0; j < currentExerciseList.length; j++) {
+                    if (oriExerciseList1[i].contentEquals(currentExerciseList[j])) {
+                        temp.add(timeRecord.get(j));
+                    }
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < oriExerciseList2.length; i++) {
+                for (int j = 0; j < currentExerciseList.length; j++) {
+                    if (oriExerciseList2[i].contentEquals(currentExerciseList[j])) {
+                        temp.add(timeRecord.get(j));
+                    }
+                }
+            }
+        }
 
+        timeRecord = temp;
         ExerciseRecord er = new ExerciseRecord(date, type, timeRecord, feeling);
 
-        if (haveSaved) {
-        }
-        else {
-            mDatabase = mDatabase.child(date);
-        }
-
-        mDatabase.push().setValue(er)
+        recordKey = mDatabase.child(key).push().getKey();
+        mDatabase.child(key).child(recordKey).setValue(er)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
                         Toast.makeText(Exercise.this, "Add exercise successful!", Toast.LENGTH_LONG).show();
                         savePhotoDialog();
                     }})
@@ -410,7 +414,8 @@ public class Exercise extends YouTubeBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        StorageReference usersRef = mStorage.child("images/"+imgUri.getLastPathSegment());
+//        StorageReference usersRef = mStorage.child(key).child("images/"+imgUri.getLastPathSegment());
+        StorageReference usersRef = mStorage.child(key).child("images/"+recordKey);
         UploadTask uploadTask;
         InputStream stream = null;
         try {

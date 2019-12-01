@@ -31,7 +31,7 @@ public class Registration extends AppCompatActivity {
     private Button btnRegister;
     private String username,icNumber,email,handphoneNumber, password,confirmPassword, fullName;
     private FirebaseDatabase database;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, tempDb;
     private List<User> userList;
 
     @Override
@@ -76,10 +76,10 @@ public class Registration extends AppCompatActivity {
                 define();
                 if(validate()) {
 
-                    mDatabase = mDatabase.child(""+username);
+//                    mDatabase = mDatabase.child(""+username);
                     User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, password, "");
 
-                    mDatabase.setValue(User.getInstance())
+                    mDatabase.push().setValue(User.getInstance())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
