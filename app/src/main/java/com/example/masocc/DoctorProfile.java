@@ -12,9 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-public class Profile extends AppCompatActivity {
+public class DoctorProfile extends AppCompatActivity {
 
     protected BottomNavigationView navView;
     Intent myIntent1, myIntent2, myIntent3, myIntent4;
@@ -24,7 +23,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile);
+        setContentView(R.layout.doctor_profile);
 
         BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
                 = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -32,20 +31,17 @@ public class Profile extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        myIntent1 = new Intent(Profile.this, MainActivity.class);
+                    case R.id.navigation_exercise:
+                        myIntent1 = new Intent(DoctorProfile.this, DoctorPatientList.class);
                         startActivity(myIntent1);
                         return true;
-                    case R.id.navigation_dashboard:
-                        myIntent2 = new Intent(Profile.this, Assessment.class);
+                    case R.id.navigation_assessment:
+                        myIntent2 = new Intent(DoctorProfile.this, DoctorPatientList.class);
                         startActivity(myIntent2);
                         return true;
-                    case R.id.navigation_history:
-                        myIntent3 = new Intent(Profile.this, History.class);
-                        startActivity(myIntent3);
-                        return true;
                     case R.id.navigation_profile:
-                        Toast.makeText(Profile.this, "You are on Profile page now", Toast.LENGTH_SHORT).show();
+                        myIntent4 = new Intent(DoctorProfile.this, DoctorProfile.class);
+                        startActivity(myIntent4);
                         return true;
                 }
                 return false;
@@ -70,7 +66,7 @@ public class Profile extends AppCompatActivity {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myIntent4 = new Intent(Profile.this, ChangePassword.class);
+                myIntent4 = new Intent(DoctorProfile.this, DoctorChangePassword.class);
                 startActivity(myIntent4);
             }
         });
@@ -78,7 +74,7 @@ public class Profile extends AppCompatActivity {
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Profile.this, EditProfile.class);
+                Intent myIntent = new Intent(DoctorProfile.this, DoctorEditProfile.class);
                 startActivity(myIntent);
             }
         });
@@ -99,9 +95,9 @@ public class Profile extends AppCompatActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("login", 0);
+                        editor.putInt("key", 0);
                         editor.apply();
-                        myIntent4 = new Intent(Profile.this, SignIn.class);
+                        myIntent4 = new Intent(DoctorProfile.this, SignIn.class);
                         startActivity(myIntent4);
                         finish();
                     }
@@ -111,7 +107,6 @@ public class Profile extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-
                     }
                 });
 

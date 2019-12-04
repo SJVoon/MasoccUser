@@ -73,7 +73,7 @@ public class Exercise extends YouTubeBaseActivity {
     private List<ExerciseRecord> exerciseRecordList;
     private FirebaseDatabase database;
     private FirebaseStorage storage;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, userDatabase;
     private StorageReference mStorage;
     private SharedPreferences sharedPreferences;
     String key, recordKey;
@@ -99,13 +99,13 @@ public class Exercise extends YouTubeBaseActivity {
                     }
                 }
             }
-            //storage
-            storage = FirebaseStorage.getInstance();
-            mStorage = storage.getReference().child("userExerciseLevelOne");
-
-            //database
-            database = FirebaseDatabase.getInstance();
-            mDatabase = database.getReference().child("userExerciseLevelOne");
+//            //storage
+//            storage = FirebaseStorage.getInstance();
+//            mStorage = storage.getReference().child("userExerciseLevelOne");
+//
+//            //database
+//            database = FirebaseDatabase.getInstance();
+//            mDatabase = database.getReference().child("userExerciseLevelOne");
         }
         else{
             for (int i = 0; i < currentExerciseList.length; i++) {
@@ -115,14 +115,23 @@ public class Exercise extends YouTubeBaseActivity {
                     }
                 }
             }
-            //storage
-            storage = FirebaseStorage.getInstance();
-            mStorage = storage.getReference().child("userExerciseLevelTwo");
-
-            //database
-            database = FirebaseDatabase.getInstance();
-            mDatabase = database.getReference().child("userExerciseLevelTwo");
+//            //storage
+//            storage = FirebaseStorage.getInstance();
+//            mStorage = storage.getReference().child("userExerciseLevelTwo");
+//
+//            //database
+//            database = FirebaseDatabase.getInstance();
+//            mDatabase = database.getReference().child("userExerciseLevelTwo");
         }
+
+        //storage
+        storage = FirebaseStorage.getInstance();
+        mStorage = storage.getReference().child("userExercise");
+
+        //database
+        database = FirebaseDatabase.getInstance();
+        mDatabase = database.getReference().child("userExercise");
+        userDatabase = database.getReference().child("users");
 
         VideoView view = (VideoView)findViewById(R.id.video_view);
         MediaController mc= new MediaController(this);
@@ -134,9 +143,7 @@ public class Exercise extends YouTubeBaseActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         date = df.format(c);
 
-
-            mDatabase = mDatabase.child(date);
-            mDatabase.addValueEventListener(new ValueEventListener() {
+            userDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
@@ -368,7 +375,6 @@ public class Exercise extends YouTubeBaseActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                         Toast.makeText(Exercise.this, "Add exercise successful!", Toast.LENGTH_LONG).show();
                         savePhotoDialog();
                     }})
@@ -414,8 +420,8 @@ public class Exercise extends YouTubeBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        StorageReference usersRef = mStorage.child(key).child("images/"+imgUri.getLastPathSegment());
-        StorageReference usersRef = mStorage.child(key).child("images/"+recordKey);
+        StorageReference usersRef = mStorage.child(key).child(imgUri.getLastPathSegment());
+        //StorageReference usersRef = mStorage.child(key).child("images/"+recordKey);
         UploadTask uploadTask;
         InputStream stream = null;
         try {
@@ -443,11 +449,12 @@ public class Exercise extends YouTubeBaseActivity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        //String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
+                //imageFileName,  /* prefix */
+                recordKey,
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );

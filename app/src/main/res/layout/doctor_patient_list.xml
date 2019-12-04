@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".History">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,22 +20,11 @@
                 android:id="@+id/textview_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="Exercise Level 1"
-                android:textColor="#000000"
-                android:textSize="30dp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button_random"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:background="@drawable/button"
-                android:text="Random"
-                android:textSize="15dp" />
+                android:text="Patient List"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="30sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,43 +37,45 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="Exercise"
-                    android:textStyle="bold"
+                    android:text="Name"
                     android:textColor="#000"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Recommended Time"
-                    android:textStyle="bold"
+                    android:text="Recent Exercise Date"
                     android:textColor="#000"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view"
-                android:scrollbars="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/container"/>
-
-            <Button
-                android:id="@+id/button_start"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="50dp"
-                android:background="@drawable/button2"
-                android:text="Start"
-                android:textSize="18dp" />
+                android:background="@drawable/container"
+                android:scrollbars="vertical" />
 
         </LinearLayout>
     </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/doctor_bottom_nav_menu" />
 
 </android.support.constraint.ConstraintLayout>

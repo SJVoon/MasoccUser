@@ -20,9 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Registration extends AppCompatActivity {
 
@@ -31,8 +29,9 @@ public class Registration extends AppCompatActivity {
     private Button btnRegister;
     private String username,icNumber,email,handphoneNumber, password,confirmPassword, fullName;
     private FirebaseDatabase database;
-    private DatabaseReference mDatabase, tempDb;
+    private DatabaseReference userReference;
     private List<User> userList;
+    private List<String> userKeyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +39,19 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.registration);
 
         database = FirebaseDatabase.getInstance();
-        mDatabase = database.getReference().child("users");
+        userReference = database.getReference().child("users");
         userList = new ArrayList<>();
+        userKeyList = new ArrayList<>();
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userList.clear();
-
+                userKeyList.clear();
                 for(DataSnapshot userSnapShot : dataSnapshot.getChildren()){
                     User u = userSnapShot.getValue(User.class);
                     userList.add(u);
+                    userKeyList.add(userSnapShot.getKey());
                 }
             }
 
@@ -64,27 +65,23 @@ public class Registration extends AppCompatActivity {
         final Intent myIntent = new Intent(this, SignIn.class);
         text.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
                 startActivity(myIntent);
             }
         });
 
-        final Intent myIntent2 = new Intent(this, SignIn.class);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
                 define();
                 if(validate()) {
 
-//                    mDatabase = mDatabase.child(""+username);
-                    User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, password, "");
+                    User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, MD5Hash.encrypt(password), "");
 
-                    mDatabase.push().setValue(User.getInstance())
+                    userReference.push().setValue(User.getInstance())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(Registration.this, "Registration successful! Sign in now.", Toast.LENGTH_LONG).show();
-                                        startActivity(myIntent2);
+                                        startActivity(myIntent);
                                         finish();
                                     }
                                 })
@@ -92,7 +89,7 @@ public class Registration extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(Registration.this, "Registration Fail! Sign in now.", Toast.LENGTH_LONG).show();
-                                        startActivity(myIntent2);
+                                        startActivity(myIntent);
                                         finish();
                                     }
                                 });
@@ -126,50 +123,53 @@ public class Registration extends AppCompatActivity {
     }
 
     private boolean validate(){
-        boolean check = true;
 
         for(int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getUsername().matches(username)) {
                 Toast.makeText(getApplicationContext(), "Username is taken!", Toast.LENGTH_SHORT).show();
-                return check = false;
+                return false;
+            }
+            if(userList.get(i).getIcNumber().matches(icNumber)){
+                Toast.makeText(getApplicationContext(), "This IC Number is registered!", Toast.LENGTH_SHORT).show();
+                return false;
             }
         }
 
-        if (TextUtils.isEmpty(username)) {
+        if (TextUtils.isEmpty(username)|| username.length() < 4) {
             Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(fullName)) {
             Toast.makeText(getApplicationContext(), "Enter full name!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(icNumber) || icNumber.length() != 12) {
             Toast.makeText(getApplicationContext(), "Enter valid IC number!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email) || !email.contains("@")) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
-        if (TextUtils.isEmpty(handphoneNumber) && !handphoneNumber.matches("^[0-9]*$")) {
+        if (TextUtils.isEmpty(handphoneNumber) || !handphoneNumber.matches("^[0-9]*$")) {
             Toast.makeText(getApplicationContext(), "Enter valid handphone number!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-            return check = false;
+        if (TextUtils.isEmpty(password) || password.length() < 4) {
+            Toast.makeText(getApplicationContext(), "Enter password with at least 4 characters!", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (!password.matches(confirmPassword)) {
             Toast.makeText(getApplicationContext(), "Comfirm password is not same as password, reenter!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
-        return check;
+        return true;
     }
 }

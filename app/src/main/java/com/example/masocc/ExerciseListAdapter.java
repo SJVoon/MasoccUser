@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapter.ViewHolder> {
     private ArrayList<String> mData, mData2;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    MyAdapter(Context c, ArrayList<String> data, ArrayList<String> data2) {
+    ExerciseListAdapter(Context c, ArrayList<String> data, ArrayList<String> data2) {
         this.mInflater = LayoutInflater.from(c);
         this.mData = data;
         this.mData2 = data2;
@@ -24,7 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
+        View view = mInflater.inflate(R.layout.exercise_list_recyclerview_row, parent, false);
         return new ViewHolder(view);
     }
 

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,8 +59,8 @@ public class Assessment extends AppCompatActivity {
                     case R.id.navigation_dashboard:
                         Toast.makeText(Assessment.this, "You are on assessment page now", Toast.LENGTH_SHORT).show();
                         return true;
-                    case R.id.navigation_notifications:
-                        myIntent3 = new Intent(Assessment.this, Notification.class);
+                    case R.id.navigation_history:
+                        myIntent3 = new Intent(Assessment.this, History.class);
                         startActivity(myIntent3);
                         return true;
                     case R.id.navigation_profile:
@@ -88,7 +86,7 @@ public class Assessment extends AppCompatActivity {
         //database
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference().child("weeklyAssessment");
-        mDatabase = mDatabase.child("" + currentUser.getInstance().getUser().getUsername());
+        mDatabase = mDatabase.child("" +User.getInstance().getUsername());
         mDatabase = mDatabase.child(date);
         mDatabase.addValueEventListener(new ValueEventListener() {
 

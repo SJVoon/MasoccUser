@@ -1,38 +1,36 @@
 package com.example.masocc;
 
-public class User {
-    private String username, email, icNumber,handphoneNumber, password, fullName, doctor;
+public class Doctor {
+    private String username, email, icNumber,handphoneNumber, password, fullName;
 
-    private static User ourInstance;
+    private static Doctor ourInstance;
 
-    public static User getInstance() {
+    public static Doctor getInstance() {
         if(ourInstance == null){
-            ourInstance = new User();
+            ourInstance = new Doctor();
         }
         return ourInstance;
     }
 
-    private User(){
+    private Doctor(){
     }
 
-    public void setUser(User u) {
-        this.username = u.username;
-        this.fullName = u.fullName;
-        this.email = u.email;
-        this.icNumber = u.icNumber;
-        this.handphoneNumber = u.handphoneNumber;
-        this.password = u.password;
-        this.doctor = u.doctor;
+    public void setDoctor(Doctor d) {
+        this.username = d.username;
+        this.fullName = d.fullName;
+        this.email = d.email;
+        this.icNumber = d.icNumber;
+        this.handphoneNumber = d.handphoneNumber;
+        this.password = d.password;
     }
 
-    public void setUser(String username, String fullName, String email, String icNumber, String handphoneNumber, String password, String doctor) {
+    public void setDoctor(String username, String fullName, String email, String icNumber, String handphoneNumber, String password) {
         this.username = username;
         this.fullName = fullName;
         this.email = email;
         this.icNumber = icNumber;
         this.handphoneNumber = handphoneNumber;
         this.password = password;
-        this.doctor = doctor;
     }
 
     public String getFullName() {
@@ -69,32 +67,16 @@ public class User {
         return icNumber;
     }
 
+    public void setIcNumber(String icNumber) {
+        this.icNumber = icNumber;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(String doctor) {
-        this.doctor = doctor;
-    }
-
-    public void setIcNumber(String icNumber) {
-        this.icNumber = icNumber;
-    }
-
-    public boolean isAssigned() {
-        if(this.doctor.isEmpty()){
-            return false;
-        }
-        else
-            return true;
     }
 
     @Override

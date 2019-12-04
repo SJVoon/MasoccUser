@@ -1,77 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_height="500dp">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:textAlignment="center"
-            android:text="MASOCC"
-            android:textSize="36sp" />
+            android:layout_height="500dp"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="250dp"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:hint="Username"
-            android:layout_height="60dp"
-            android:background="@drawable/edit_text_background"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="MASOCC"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="45dp" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="250dp"
-            android:layout_gravity="center"
-            android:inputType="textPassword"
-            android:textAlignment="center"
-            android:hint="Password"
-            android:layout_marginTop="20dp"
-            android:layout_height="60dp"
-            android:background="@drawable/edit_text_background"/>
+            <EditText
+                android:id="@+id/username"
+                android:layout_marginTop="50dp"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/edit_text_background"
+                android:hint="Username"
+                android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/button_signin"
-            android:layout_marginTop="40dp"
-            android:layout_width="wrap_content"
-            android:layout_height="50sp"
-            android:layout_gravity="center"
-            android:text="Sign In"
-            android:textSize="20sp"
-            android:background="@drawable/button"/>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/edit_text_background"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/forget_pw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:text="Forget password?"
-            android:textSize="15sp" />
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Physician"
+                android:textSize="18dp" />
 
-        <TextView
-            android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:text="Click here to register!"
-            android:textSize="15sp" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/button_signin"
+                android:layout_width="wrap_content"
+                android:layout_height="50sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/button"
+                android:text="Sign In"
+                android:textSize="20sp" />
 
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/forget_pw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_weight="1"
+                android:text="Forget password?"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="80dp"
+                android:layout_weight="1"
+                android:text="Click here to register!"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

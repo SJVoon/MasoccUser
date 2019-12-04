@@ -2,6 +2,6 @@
     <string name="app_name">Masocc</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Assessment</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">History</string>
     <string name="title_profile">Profile</string>
 </resources>

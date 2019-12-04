@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
-
         btnStartExercise = findViewById(R.id.button_start_exercise);
         btnStartExercise.setOnClickListener(new View.OnClickListener(){
 
@@ -64,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
                         myIntent2 = new Intent(MainActivity.this, Assessment.class);
                         startActivity(myIntent2);
                         return true;
-                    case R.id.navigation_notifications:
-                        myIntent3 = new Intent(MainActivity.this, Notification.class);
+                    case R.id.navigation_history:
+                        myIntent3 = new Intent(MainActivity.this, History.class);
                         startActivity(myIntent3);
                         return true;
                     case R.id.navigation_profile:

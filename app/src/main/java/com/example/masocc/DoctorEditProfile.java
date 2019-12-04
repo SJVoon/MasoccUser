@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditProfile extends AppCompatActivity {
+public class DoctorEditProfile extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
@@ -38,7 +38,7 @@ public class EditProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_profile);
+        setContentView(R.layout.doctor_edit_profile);
 
         BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
                 = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -47,19 +47,19 @@ public class EditProfile extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        myIntent1 = new Intent(EditProfile.this, MainActivity.class);
+                        myIntent1 = new Intent(DoctorEditProfile.this, MainActivity.class);
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_dashboard:
-                        myIntent2 = new Intent(EditProfile.this, Assessment.class);
+                        myIntent2 = new Intent(DoctorEditProfile.this, Assessment.class);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_history:
-                        myIntent3 = new Intent(EditProfile.this, History.class);
+                        myIntent3 = new Intent(DoctorEditProfile.this, History.class);
                         startActivity(myIntent3);
                         return true;
                     case R.id.navigation_profile:
-                        myIntent4 = new Intent(EditProfile.this, Profile.class);
+                        myIntent4 = new Intent(DoctorEditProfile.this, Profile.class);
                         startActivity(myIntent4);
                         return true;
                 }
@@ -173,7 +173,7 @@ public class EditProfile extends AppCompatActivity {
                                                           .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                               @Override
                                                               public void onSuccess(Void aVoid) {
-                                                                  Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
+                                                                  Toast.makeText(DoctorEditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
                                                                   SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                                                                   SharedPreferences.Editor editor = sharedPreferences.edit();
                                                                   editor.putString("fullName", User.getInstance().getFullName());
@@ -190,7 +190,7 @@ public class EditProfile extends AppCompatActivity {
                                                           .addOnFailureListener(new OnFailureListener() {
                                                               @Override
                                                               public void onFailure(@NonNull Exception e) {
-                                                                  Toast.makeText(EditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
+                                                                  Toast.makeText(DoctorEditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
                                                                   finish();
                                                               }
                                                           });
@@ -201,7 +201,7 @@ public class EditProfile extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfile.this, "Edit profile fail! Try again later", Toast.LENGTH_LONG).show();
+                            Toast.makeText(DoctorEditProfile.this, "Edit profile fail! Try again later", Toast.LENGTH_LONG).show();
                             finish();
                         }
                     });
@@ -222,7 +222,7 @@ public class EditProfile extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(DoctorEditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
                             SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("fullName", User.getInstance().getFullName());
@@ -239,7 +239,7 @@ public class EditProfile extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(DoctorEditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
                             finish();
                         }
                     });

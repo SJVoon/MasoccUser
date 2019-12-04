@@ -20,10 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ChangePassword extends AppCompatActivity {
+public class DoctorChangePassword extends AppCompatActivity {
 
     private FirebaseDatabase database;
-    private DatabaseReference userReference;
+    private DatabaseReference doctorReference;
     protected BottomNavigationView navView;
     private Intent myIntent1, myIntent2, myIntent3, myIntent4;
     private Button btnChangePassword;
@@ -34,7 +34,7 @@ public class ChangePassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_password);
+        setContentView(R.layout.doctor_change_password);
 
         BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
                 = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,20 +42,16 @@ public class ChangePassword extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        myIntent1 = new Intent(ChangePassword.this, MainActivity.class);
+                    case R.id.navigation_exercise1:
+                        myIntent1 = new Intent(DoctorChangePassword.this, DoctorPatientList.class);
                         startActivity(myIntent1);
                         return true;
-                    case R.id.navigation_dashboard:
-                        myIntent2 = new Intent(ChangePassword.this, Assessment.class);
+                    case R.id.navigation_exercise2:
+                        myIntent2 = new Intent(DoctorChangePassword.this, DoctorPatientList.class);
                         startActivity(myIntent2);
                         return true;
-                    case R.id.navigation_history:
-                        myIntent3 = new Intent(ChangePassword.this, History.class);
-                        startActivity(myIntent3);
-                        return true;
                     case R.id.navigation_profile:
-                        myIntent4 = new Intent(ChangePassword.this, Profile.class);
+                        myIntent4 = new Intent(DoctorChangePassword.this, DoctorProfile.class);
                         startActivity(myIntent4);
                         return true;
                 }
@@ -68,14 +64,14 @@ public class ChangePassword extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         database = FirebaseDatabase.getInstance();
-        userReference = database.getReference().child("users");
+        doctorReference = database.getReference().child("doctors");
 
-        userReference.addValueEventListener(new ValueEventListener() {
+        doctorReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot userSnapShot : dataSnapshot.getChildren()){
-                    User u = userSnapShot.getValue(User.class);
-                    if(u.getUsername().equals(User.getInstance().getUsername())){
+                    Doctor u = userSnapShot.getValue(Doctor.class);
+                    if(u.getUsername().equals(Doctor.getInstance().getUsername())){
                         key = userSnapShot.getKey();
                     }
                 }
@@ -93,20 +89,20 @@ public class ChangePassword extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 define();
                 if(validate()) {
-                    userReference = userReference.child(key);
+                    doctorReference = doctorReference.child(key);
 
-                    userReference.child("password").setValue(MD5Hash.encrypt(newPassword))
+                    doctorReference.child("password").setValue(MD5Hash.encrypt(newPassword))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(ChangePassword.this, "Change password successful!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(DoctorChangePassword.this, "Change password successful!", Toast.LENGTH_LONG).show();
                                     finish();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(ChangePassword.this, "Change password fail! Try again later", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(DoctorChangePassword.this, "Change password fail! Try again later", Toast.LENGTH_LONG).show();
                                     finish();
                                 }
                             });
@@ -138,7 +134,7 @@ public class ChangePassword extends AppCompatActivity {
             return check = false;
         }
 
-        if (!MD5Hash.encrypt(currentPassword).matches((User.getInstance().getPassword()))) {
+        if (!MD5Hash.encrypt(currentPassword).matches((Doctor.getInstance().getPassword()))) {
             Toast.makeText(getApplicationContext(), "Enter corrent current password!", Toast.LENGTH_SHORT).show();
             return check = false;
         }
