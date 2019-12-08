@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,11 @@
         <activity android:name=".DoctorChangePassword"/>
         <activity android:name=".DoctorEditProfile"/>
         <activity android:name=".DoctorPatientList"/>
+        <activity android:name=".DoctorPatientExerciseList"/>
+        <activity android:name=".DoctorPatientExerciseReview"/>
+        <activity android:name=".DoctorPatientAssList"/>
+        <activity android:name=".DoctorPatientAssessmentList"/>
+        <activity android:name=".DoctorPatientAssessmentReview"/>
         <activity android:name=".DoctorProfile"/>
         <activity android:name=".HistoryDisplay"/>
         <activity android:name=".MainActivity"></activity>
@@ -48,8 +54,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
-        <service android:name="org.eclipse.paho.android.service.MqttService" >
-        </service>
     </application>
 
 </manifest>

@@ -27,7 +27,7 @@ public class ExerciseList extends AppCompatActivity {
     //exercise level one
     private ArrayList<String> exerciseList1 = new ArrayList<>(Arrays.asList("Shoulder Shrug", "Seated Ladder Climb", "Seated Russian Twist", "Sit to Stand",
             "Seated Bent over Row", "Toe Lift", "Wall Push Up", "Oblique Squeeze"));
-    private ArrayList<String> exerciseTimeList1 = new ArrayList<>(Arrays.asList("20s","20s","20s","20s","20s","20s","20s","30s"));
+    private ArrayList<String> exerciseTimeList1 = new ArrayList<>(Arrays.asList("20s","20s","20s","20s","20s","20s","20s","20s"));
     //exercise level two
     private ArrayList<String> exerciseList2 = new ArrayList<>(Arrays.asList("Seated Bicycle Crunch","Seated Butterfly","Lateral Leg Raise", "Squat with Rotational Press",
             "Wood Cutter", "Empty the Can", "Standing Bicycle Crunch"));
@@ -73,6 +73,7 @@ public class ExerciseList extends AppCompatActivity {
             public void onClick(View v) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("list",exerciseList.toString());
+                editor.putString("timelist",exerciseTimeList.toString());
                 editor.putString("videoType", type);
                 editor.apply();
                 startActivity(new Intent(ExerciseList.this, Exercise.class));

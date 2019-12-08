@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/navigation_exercise"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/level1"
         android:title="Exercise" />
 
     <item
         android:id="@+id/navigation_assessment"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/assessment"
         android:title="Assessments" />
 
     <item

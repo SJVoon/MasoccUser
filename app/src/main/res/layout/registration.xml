@@ -18,9 +18,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:textAlignment="center"
-            android:text="REGISTER"
+            android:text="Registration"
             android:textSize="30sp"
             android:textColor="@color/colorPrimaryDark"/>
 
@@ -42,7 +42,7 @@
             android:hint="Full Name"
             android:layout_height="40dp"
             android:background="@drawable/edit_text_background"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="16dp" />
 
         <EditText
             android:id="@+id/ic_number"
@@ -52,7 +52,7 @@
             android:hint="I.C. No."
             android:inputType="number"
             android:textSize="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_height="40dp"
             android:background="@drawable/edit_text_background"/>
 
@@ -62,7 +62,7 @@
             android:layout_gravity="center"
             android:textAlignment="center"
             android:hint="E-mail Address"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_height="40dp"
             android:background="@drawable/edit_text_background"/>
 
@@ -73,7 +73,7 @@
             android:textAlignment="center"
             android:hint="Handphone No."
             android:inputType="number"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_height="40dp"
             android:background="@drawable/edit_text_background" />
 
@@ -84,7 +84,7 @@
             android:inputType="textPassword"
             android:textAlignment="center"
             android:hint="Password"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_height="40dp"
             android:background="@drawable/edit_text_background"/>
 
@@ -95,14 +95,14 @@
             android:inputType="textPassword"
             android:textAlignment="center"
             android:hint="Confirm Password"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_height="40dp"
             android:background="@drawable/edit_text_background" />
 
         <Button
             android:id="@+id/button_register"
             android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Register"
@@ -114,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="50dp"
             android:textAlignment="center"
             android:text="Already registered? Sign In here!"
             android:textSize="15sp" />

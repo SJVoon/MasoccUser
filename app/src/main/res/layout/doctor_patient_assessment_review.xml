@@ -6,13 +6,11 @@
     <ScrollView
         android:layout_width="match_parent"
         android:id="@+id/scrollable"
-        android:layout_marginBottom="80dp"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="80dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -20,38 +18,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textAlignment="center"
-                android:text="Review Exercise"
+                android:text="Review Assessment"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="30sp"/>
 
             <TextView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="Exercise Type"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="250dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_background"
-                android:hint="type"
-                android:textSize="15dp"
-                android:textAlignment="center" />
-
-            <TextView
                 android:layout_marginTop="20dp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="Exercise Date"
+                android:text="Assessment Date"
                 android:textSize="15dp"/>
 
             <TextView
@@ -72,18 +49,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="Exercise Feeling"
+                android:text="How do you feel this week?"
                 android:textSize="15dp"/>
 
             <TextView
-                android:id="@+id/feeling"
+                android:id="@+id/q1"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
-                android:hint="feeling"
+                android:hint="Q1"
                 android:textSize="15dp"
                 android:textAlignment="center" />
 
@@ -93,18 +70,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAlignment="center"
-                android:text="Exercise average BPM"
+                android:text="How do you rate your exercise performance?"
                 android:textSize="15dp"/>
 
             <TextView
-                android:id="@+id/data"
+                android:id="@+id/q2"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
-                android:hint="BPM"
+                android:hint="Q2"
                 android:textSize="15dp"
                 android:textAlignment="center" />
 
@@ -128,13 +105,6 @@
                 android:hint="Your Comment Here"
                 android:textSize="15dp"
                 android:textAlignment="center" />
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center"/>
 
             <Button
                 android:id="@+id/save"

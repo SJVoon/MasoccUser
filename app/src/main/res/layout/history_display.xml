@@ -6,7 +6,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:id="@+id/scrollable"
-        android:layout_marginBottom="80dp"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -28,7 +27,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="Exercise Type"
                 android:textAlignment="center"
                 android:textSize="15dp" />
@@ -39,14 +38,14 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edit_text_background"
                 android:hint="type"
                 android:textSize="15dp"
                 android:textAlignment="center" />
 
             <TextView
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -60,14 +59,14 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edit_text_background"
                 android:hint="date"
                 android:textSize="15dp"
                 android:textAlignment="center" />
 
             <TextView
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -81,14 +80,14 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edit_text_background"
                 android:hint="feeling"
                 android:textSize="15dp"
                 android:textAlignment="center" />
 
             <TextView
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -102,14 +101,14 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edit_text_background"
                 android:hint="comment"
                 android:textSize="15dp"
                 android:textAlignment="center" />
 
             <TextView
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -123,8 +122,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edit_text_background"
                 android:hint="BPM"
                 android:textSize="15dp"

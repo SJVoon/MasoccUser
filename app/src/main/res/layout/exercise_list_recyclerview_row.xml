@@ -10,7 +10,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="1"
-            android:padding="2dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="8dp"
             android:textColor="#000"
             android:textSize="16dp" />
 
@@ -19,7 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:padding="2dp"
+            android:paddingRight="8dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:textColor="#000"
             android:textSize="16dp" />
 

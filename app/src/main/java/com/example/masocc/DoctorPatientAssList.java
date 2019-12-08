@@ -26,21 +26,21 @@ public class DoctorPatientAssList extends AppCompatActivity {
     protected BottomNavigationView navView;
     protected Intent myIntent1, myIntent2,myIntent4;
     private FirebaseDatabase database;
-    private DatabaseReference userReference, userKeyReference, exerciseReference;
+    private DatabaseReference userReference, userKeyReference, assessmentReference;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager layoutManager;
-    private List<DoctorView> viewList;
-    private List<List<ExerciseRecord>> exerciseList;
+    //private List<AssessmentView> viewList;
+    private List<AssessmentRecord> assessmentList;
     private List<String> userKeyList;
-    //private List<ExerciseRecord> exerciseList;
+    private List<User> userList;
     String key;
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.doctor_patient_list);
+        setContentView(R.layout.doctor_patient_ass_list);
 
         sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
 
@@ -51,7 +51,7 @@ public class DoctorPatientAssList extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_exercise:
-                        myIntent1 = new Intent(DoctorPatientAssList.this, DoctorPatientAssList.class);
+                        myIntent1 = new Intent(DoctorPatientAssList.this, DoctorPatientList.class);
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_assessment:
@@ -67,7 +67,7 @@ public class DoctorPatientAssList extends AppCompatActivity {
             }
         };
         navView = findViewById(R.id.nav_view);
-        MenuItem item = navView.getMenu().findItem(R.id.navigation_profile);
+        MenuItem item = navView.getMenu().findItem(R.id.navigation_assessment);
         item.setChecked(true);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -75,55 +75,42 @@ public class DoctorPatientAssList extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         userKeyReference = database.getReference().child("usercollection").child(key);
         userReference = database.getReference().child("users");
-        exerciseReference = database.getReference().child("userExercise");
+        assessmentReference = database.getReference().child("weeklyAssessment");
         userKeyList = new ArrayList<>();
-        viewList = new ArrayList<>();
+        userList = new ArrayList<>();
+        assessmentList = new ArrayList<>();
 
         userKeyReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userKeyList.clear();
-                for(DataSnapshot userSnapShot : dataSnapshot.getChildren()){
-                    String u = userSnapShot.getValue(String.class);
-                    userKeyList.add(u);
+                for(DataSnapshot dss : dataSnapshot.getChildren()){
+                    userKeyList.add(dss.getValue(String.class));
                 }
-                //update();
-                //mAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                viewList.clear();
-                for(DataSnapshot userSnapShot : dataSnapshot.getChildren()){
-                    User u = userSnapShot.getValue(User.class);
-                    for(String s : userKeyList){
-                        if(s.equals(userSnapShot.getKey())){
-                            exerciseReference.child(s).orderByKey().limitToLast(1).addListenerForSingleValueEvent(
-                                    new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            ExerciseRecord er = dataSnapshot.getValue(ExerciseRecord.class);
-                                            viewList.add(new DoctorView(u,er,s));
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    }
-                            );
+                userList.clear();
+                for(DataSnapshot dss : dataSnapshot.getChildren()){
+                    for(String str : userKeyList){
+                        if(str.matches(dss.getKey())){
+                            userList.add(dss.getValue(User.class));
                         }
                     }
                 }
                 mAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -133,7 +120,7 @@ public class DoctorPatientAssList extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-        mAdapter = new DoctorPatientListAdapter(this, viewList);
+        mAdapter = new DoctorPatientAssListAdapter(this, userList, userKeyList);
         recyclerView.setAdapter(mAdapter);
     }
 

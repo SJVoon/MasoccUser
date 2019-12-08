@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
@@ -42,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +64,7 @@ public class Exercise extends YouTubeBaseActivity {
     private int Seconds, Minutes, MilliSeconds ;
     private List<String> timeRecord = new ArrayList<>();
     private String date, type, time, feeling, currentPhotoPath;;
-    private String[] currentExerciseList;
+    private String[] currentExerciseList, currentExerciseTimeList;
     private ArrayList<Integer> currentExerciseIdList = new ArrayList<>();
     private String[] oriExerciseList1 = {"Shoulder Shrug","Seated Ladder Climb","Seated Russian Twist", "Sit to Stand",
     "Seated Bent over Row", "Toe Lift", "Wall Push Up", "Oblique Squeeze"};
@@ -68,6 +74,8 @@ public class Exercise extends YouTubeBaseActivity {
             "Wood Cutter", "Empty the Can", "Standing Bicycle Crunch"};
     private int[] oriExerciseIdList2 = {R.raw.seated_bicycle_crunch,R.raw.seated_butterfly, R.raw.lateral_leg_raise, R.raw.squat_with_rotational_press,
             R.raw.wood_cutter, R.raw.empty_the_can, R.raw.standing_bicycle_crunch};
+    private ArrayList<String> oriExerciseTimeList1 = new ArrayList<>(Arrays.asList("20s","20s","20s","20s","20s","20s","20s","30s"));
+    private ArrayList<String> oriExerciseTimeList2 = new ArrayList<>(Arrays.asList("30s","30s","30s","30s","30s","30s","30s"));
     private int exerciseCounter = 0;
     private boolean pause_check;
     private List<ExerciseRecord> exerciseRecordList;
@@ -77,6 +85,8 @@ public class Exercise extends YouTubeBaseActivity {
     private StorageReference mStorage;
     private SharedPreferences sharedPreferences;
     String key, recordKey;
+    Vibrator vibrate;
+    Ringtone r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +98,13 @@ public class Exercise extends YouTubeBaseActivity {
         String s = sharedPreferences.getString("list",null);
         String str = s.substring(1,s.length()-1);
         currentExerciseList = str.split(", ");
+        String s2 = sharedPreferences.getString("timelist",null);
+        String str2 = s.substring(1,s.length()-1);
+        currentExerciseTimeList = str.split(",");
+
+        vibrate = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        Uri uri = Uri.parse("android.resource://com.example.masocc/" + R.raw.alert);
+        r = RingtoneManager.getRingtone(getApplicationContext(), uri);
 
         //define current list with id
 
@@ -208,8 +225,14 @@ public class Exercise extends YouTubeBaseActivity {
 
                 else {
                     exerciseCounter++;
-                    if(exerciseCounter == 7)
-                        btnEnd.setText("END");
+                    if(type.contentEquals("exercise level one")) {
+                        if (exerciseCounter == 7)
+                            btnEnd.setText("END");
+                    }
+                    else{
+                        if (exerciseCounter == 6)
+                            btnEnd.setText("END");
+                    }
                     tvVideoName.setText(currentExerciseList[exerciseCounter]);
                     playVideo(view);
                     timeRecord.add(time);
@@ -226,6 +249,7 @@ public class Exercise extends YouTubeBaseActivity {
                     Seconds = 0 ;
                     Minutes = 0 ;
                     MilliSeconds = 0 ;
+                    tvStopwatchName.setTextColor(getResources().getColor(android.R.color.black));
                     tvStopwatchName.setText("00:00:00");
                     //
                     StartTime = SystemClock.uptimeMillis();
@@ -250,6 +274,7 @@ public class Exercise extends YouTubeBaseActivity {
                 Seconds = 0 ;
                 Minutes = 0 ;
                 MilliSeconds = 0 ;
+                tvStopwatchName.setTextColor(getResources().getColor(android.R.color.black));
                 tvStopwatchName.setText("00:00:00");
                 //
                 btnStart.setEnabled(true);
@@ -276,6 +301,41 @@ public class Exercise extends YouTubeBaseActivity {
             time = ("" + String.format("%02d", Minutes) + ":"
                     + String.format("%02d", Seconds) + ":"
                     + String.format("%02d", MilliSeconds));
+
+            if(type.contentEquals("exercise level one")) {
+                if(Seconds == 16){
+                    Toast.makeText(Exercise.this, "Time limit is near!", Toast.LENGTH_LONG).show();
+                }
+                if(Seconds == 21){
+                    Toast.makeText(Exercise.this, "Time limit exceeded!", Toast.LENGTH_LONG).show();
+                }
+                if (Seconds >= 15 && Seconds%2 == 0) {
+                    tvStopwatchName.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+                    r.play();
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        vibrate.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        vibrate.vibrate(1000);
+                    }
+                }
+            }
+            else{
+                if(Seconds == 26){
+                    Toast.makeText(Exercise.this, "Time limit is near!", Toast.LENGTH_LONG).show();
+                }
+                if(Seconds == 31){
+                    Toast.makeText(Exercise.this, "Time limit exceeded!", Toast.LENGTH_LONG).show();
+                }
+                if (Seconds >= 25 && Seconds%2 == 0) {
+                    tvStopwatchName.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+                    r.play();
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        vibrate.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        vibrate.vibrate(1000);
+                    }
+                }
+            }
 
             tvStopwatchName.setText(time);
 
@@ -328,7 +388,6 @@ public class Exercise extends YouTubeBaseActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         feeling = input.getText().toString().trim();
-
                         saveExercise();
                     }
                 });

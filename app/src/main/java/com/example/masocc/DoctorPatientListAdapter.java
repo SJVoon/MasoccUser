@@ -11,16 +11,19 @@ import android.widget.TextView;
 import java.util.List;
 
 public class DoctorPatientListAdapter extends RecyclerView.Adapter<DoctorPatientListAdapter.ViewHolder> {
-    private List<DoctorView> viewList;
+    private List<User> viewList;
+    private List<String> keyList;
     private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener mClickListener;
+    private String key;
 
     // data is passed into the constructor
-    DoctorPatientListAdapter(Context c, List<DoctorView> userList) {
+    DoctorPatientListAdapter(Context c, List<User> userList, List<String> key) {
         this.context = c;
         this.mInflater = LayoutInflater.from(c);
         this.viewList = userList;
+        this.keyList = key;
     }
 
     // inflates the row layout from xml when needed
@@ -34,8 +37,8 @@ public class DoctorPatientListAdapter extends RecyclerView.Adapter<DoctorPatient
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final int p = position;
-        String name = viewList.get(p).getUser().getFullName();
-        String date = viewList.get(p).getExerciseRecord().getDate();
+        String name = viewList.get(p).getFullName();
+        String date = viewList.get(p).getIcNumber();
         holder.myTextView.setText(name);
         holder.myTextView2.setText(date);
 
@@ -44,7 +47,7 @@ public class DoctorPatientListAdapter extends RecyclerView.Adapter<DoctorPatient
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, DoctorPatientExerciseList.class);
-                        intent.putExtra("userKey",viewList.get(p).getKey());
+                        intent.putExtra("userKey",keyList.get(p));
                         context.startActivity(intent);
                     }
                 }
@@ -76,7 +79,7 @@ public class DoctorPatientListAdapter extends RecyclerView.Adapter<DoctorPatient
     }
 
     // convenience method for getting data at click position
-    DoctorView getItem(int id) {
+    User getItem(int id) {
         System.out.println("id" + id);
         return viewList.get(id);
     }

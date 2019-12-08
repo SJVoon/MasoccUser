@@ -160,8 +160,10 @@ public class SignIn extends AppCompatActivity{
                             editor.putString("handphoneNumber",Doctor.getInstance().getHandphoneNumber());
                             editor.apply();
                         }
-                        if(changePw)
+                        if(changePw) {
                             startActivity(tempIntent);
+                            startActivity(myIntentDoc);
+                        }
                         else
                             startActivity(myIntentDoc);
                         finish();

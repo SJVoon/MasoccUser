@@ -6,11 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,19 +32,19 @@ public class DoctorPatientAssessmentReview extends AppCompatActivity {
     private DatabaseReference exerciseReference;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private List<ExerciseRecord> exerciseRecordList;
-    private TextView tvType, tvDate, tvFeeling, tvData;
-    private ImageView ivImage;
+    private List<AssessmentRecord> exerciseRecordList;
+    private TextView tvDate, tvQ1, tvQ2;
     private EditText etComment;
+    private Button btnSave;
     String userKey, exerciseKey;
     Intent intent;
-    ExerciseRecord record;
+    AssessmentRecord record;
     Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.doctor_patient_exercise_review);
+        setContentView(R.layout.doctor_patient_assessment_review);
 
         exerciseRecordList = new ArrayList<>();
         context = this;
@@ -49,21 +53,13 @@ public class DoctorPatientAssessmentReview extends AppCompatActivity {
         exerciseKey = intent.getStringExtra("exerciseKey");
 
         database = FirebaseDatabase.getInstance();
-        exerciseReference = database.getReference().child("userExercise").child(userKey);
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference().child("userExercise").child(userKey);
+        exerciseReference = database.getReference().child("weeklyAssessment").child(userKey).child(exerciseKey);
 
         exerciseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                exerciseRecordList.clear();
-                for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
-                    ExerciseRecord u = userSnapShot.getValue(ExerciseRecord.class);
-                    if(exerciseKey.equals(userSnapShot.getKey())){
-                        record = u;
-                    }
-                }
+                record = dataSnapshot.getValue(AssessmentRecord.class);
+                setData();
             }
 
             @Override
@@ -72,32 +68,47 @@ public class DoctorPatientAssessmentReview extends AppCompatActivity {
         });
 
         setupUI();
-        setData(record);
 
-        storageReference.getDownloadUrl().addOnSuccessListener(
-                new OnSuccessListener<Uri>() {
+        btnSave.setOnClickListener(
+                new View.OnClickListener() {
                     @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(context).load(uri.toString()).into(ivImage);
+                    public void onClick(View v) {
+                        record.setComment(etComment.getText().toString().trim());
+                        exerciseReference.setValue(record).addOnSuccessListener(
+                                new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(DoctorPatientAssessmentReview.this, "Comment complete!", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }
+                        ).addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        finish();
+                                    }
+                                }
+                        );
                     }
                 }
         );
+
     }
 
     private void setupUI() {
-        tvType = findViewById(R.id.type);
         tvDate = findViewById(R.id.date);
-        tvFeeling = findViewById(R.id.feeling);
+        tvQ1 = findViewById(R.id.q1);
         etComment = findViewById(R.id.comment);
-        tvData = findViewById(R.id.data);
-        ivImage = findViewById(R.id.image);
+        tvQ2 = findViewById(R.id.q2);
+        btnSave = findViewById(R.id.save);
     }
 
-    private void setData(ExerciseRecord er) {
-        tvType.setText(er.getType());
-        tvDate.setText(er.getDate());
-        tvFeeling.setText(er.getFeeling());
-        tvData.setText(er.getData());
+    private void setData() {
+        tvDate.setText(record.getDate());
+        tvQ1.setText(record.getFeeling().get(0));
+        tvQ2.setText(record.getFeeling().get(1));
+        etComment.setText(record.getComment());
     }
 
 }

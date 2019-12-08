@@ -28,10 +28,8 @@ public class DoctorPatientAssessmentList extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager layoutManager;
-    //private List<DoctorView> viewList;
-    private List<ExerciseRecord> exerciseList;
+    private List<AssessmentRecord> exerciseList;
     private List<String> exerciseKeyList;
-    //private List<ExerciseRecord> exerciseList;
     String key;
 
     @Override
@@ -50,7 +48,7 @@ public class DoctorPatientAssessmentList extends AppCompatActivity {
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_assessment:
-                        myIntent2 = new Intent(DoctorPatientAssessmentList.this, DoctorPatientList.class);
+                        myIntent2 = new Intent(DoctorPatientAssessmentList.this, DoctorPatientAssList.class);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_profile:
@@ -62,14 +60,14 @@ public class DoctorPatientAssessmentList extends AppCompatActivity {
             }
         };
         navView = findViewById(R.id.nav_view);
-        MenuItem item = navView.getMenu().findItem(R.id.navigation_profile);
+        MenuItem item = navView.getMenu().findItem(R.id.navigation_assessment);
         item.setChecked(true);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Intent intent = getIntent();
         key = intent.getStringExtra("userKey");
         database = FirebaseDatabase.getInstance();
-        exerciseReference = database.getReference().child("userExercise").child(key);
+        exerciseReference = database.getReference().child("weeklyAssessment").child(key);
         exerciseList = new ArrayList<>();
         exerciseKeyList = new ArrayList<>();
 
@@ -79,7 +77,7 @@ public class DoctorPatientAssessmentList extends AppCompatActivity {
                 exerciseList.clear();
                 exerciseKeyList.clear();
                 for(DataSnapshot userSnapShot : dataSnapshot.getChildren()){
-                    ExerciseRecord u = userSnapShot.getValue(ExerciseRecord.class);
+                    AssessmentRecord u = userSnapShot.getValue(AssessmentRecord.class);
                     exerciseList.add(u);
                     exerciseKeyList.add(userSnapShot.getKey());
                 }
@@ -97,7 +95,7 @@ public class DoctorPatientAssessmentList extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-        mAdapter = new DoctorPatientExerciseListAdapter(this, exerciseList, exerciseKeyList, key);
+        mAdapter = new DoctorPatientAssessmentListAdapter(this, exerciseList, exerciseKeyList, key);
         recyclerView.setAdapter(mAdapter);
     }
 

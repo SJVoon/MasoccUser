@@ -36,7 +36,7 @@ public class DoctorProfile extends AppCompatActivity {
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_assessment:
-                        myIntent2 = new Intent(DoctorProfile.this, DoctorPatientList.class);
+                        myIntent2 = new Intent(DoctorProfile.this, DoctorPatientAssList.class);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_profile:
@@ -95,7 +95,7 @@ public class DoctorProfile extends AppCompatActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("key", 0);
+                        editor.putInt("login", 0);
                         editor.apply();
                         myIntent4 = new Intent(DoctorProfile.this, SignIn.class);
                         startActivity(myIntent4);

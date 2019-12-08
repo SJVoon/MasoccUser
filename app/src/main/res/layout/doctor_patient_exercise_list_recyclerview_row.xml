@@ -12,7 +12,7 @@
         android:padding="8dp"
         android:textColor="#000"
         android:text="a"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tvRight"
@@ -23,6 +23,6 @@
         android:gravity="end"
         android:text="b"
         android:textColor="#000"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
 </LinearLayout>

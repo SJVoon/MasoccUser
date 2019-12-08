@@ -30,10 +30,8 @@ public class DoctorPatientExerciseList extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager layoutManager;
-    //private List<DoctorView> viewList;
     private List<ExerciseRecord> exerciseList;
     private List<String> exerciseKeyList;
-    //private List<ExerciseRecord> exerciseList;
     String key;
 
     @Override
@@ -52,7 +50,7 @@ public class DoctorPatientExerciseList extends AppCompatActivity {
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_assessment:
-                        myIntent2 = new Intent(DoctorPatientExerciseList.this, DoctorPatientList.class);
+                        myIntent2 = new Intent(DoctorPatientExerciseList.this, DoctorPatientAssList.class);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_profile:
@@ -64,7 +62,7 @@ public class DoctorPatientExerciseList extends AppCompatActivity {
             }
         };
         navView = findViewById(R.id.nav_view);
-        MenuItem item = navView.getMenu().findItem(R.id.navigation_profile);
+        MenuItem item = navView.getMenu().findItem(R.id.navigation_exercise);
         item.setChecked(true);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -85,7 +83,6 @@ public class DoctorPatientExerciseList extends AppCompatActivity {
                     exerciseList.add(u);
                     exerciseKeyList.add(userSnapShot.getKey());
                 }
-                //update();
                 mAdapter.notifyDataSetChanged();
             }
             @Override

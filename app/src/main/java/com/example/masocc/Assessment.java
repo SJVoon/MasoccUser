@@ -1,6 +1,8 @@
 package com.example.masocc;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,8 @@ public class Assessment extends AppCompatActivity {
     private List<AssessmentRecord> assessmentRecordList;
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
+    SharedPreferences sharedPreferences;
+    String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,9 @@ public class Assessment extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         assessmentRecordList = new ArrayList<>();
 
+        sharedPreferences = sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+        key = sharedPreferences.getString("key",null);
+
         //date,type
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -86,20 +93,21 @@ public class Assessment extends AppCompatActivity {
         //database
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference().child("weeklyAssessment");
-        mDatabase = mDatabase.child("" +User.getInstance().getUsername());
-        mDatabase = mDatabase.child(date);
-        mDatabase.addValueEventListener(new ValueEventListener() {
 
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+//        mDatabase = mDatabase.child("" +User.getInstance().getUsername());
+//        mDatabase = mDatabase.child(date);
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
 
         //setupUI
         btnSubmit = (Button)findViewById(R.id.button_submit);
@@ -142,7 +150,7 @@ public class Assessment extends AppCompatActivity {
                 feeling.add(rg2.get(i).getText().toString().trim());
         }
         AssessmentRecord ar = new AssessmentRecord(date,feeling);
-        mDatabase.push().setValue(ar)
+        mDatabase.child(key).push().setValue(ar)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

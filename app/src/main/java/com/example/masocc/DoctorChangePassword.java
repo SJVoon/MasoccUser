@@ -42,12 +42,12 @@ public class DoctorChangePassword extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigation_exercise1:
+                    case R.id.navigation_exercise:
                         myIntent1 = new Intent(DoctorChangePassword.this, DoctorPatientList.class);
                         startActivity(myIntent1);
                         return true;
-                    case R.id.navigation_exercise2:
-                        myIntent2 = new Intent(DoctorChangePassword.this, DoctorPatientList.class);
+                    case R.id.navigation_assessment:
+                        myIntent2 = new Intent(DoctorChangePassword.this, DoctorPatientAssList.class);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_profile:

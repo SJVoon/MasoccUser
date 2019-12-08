@@ -36,7 +36,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         String date = exerciseList.get(p).getDate();
         String type = exerciseList.get(p).getType();
         holder.myTextView.setText(date);
-        holder.myTextView2.setText(type);
+        if(type.matches("exercise level one"))
+            holder.myTextView2.setText("Level One");
+        else
+            holder.myTextView2.setText("Level Two");
 
         holder.itemView.setOnClickListener(
                 new View.OnClickListener() {

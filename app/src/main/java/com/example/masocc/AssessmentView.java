@@ -1,14 +1,14 @@
 package com.example.masocc;
 
-public class DoctorView {
+public class AssessmentView {
 
     private User user;
-    private ExerciseRecord exerciseRecord;
+    private AssessmentRecord assessmentRecord;
     private String key;
 
-    public DoctorView(User u, ExerciseRecord er, String key){
+    public AssessmentView(User u, AssessmentRecord er, String key){
         this.user = u;
-        this.exerciseRecord = er;
+        this.assessmentRecord = er;
         this.key = key;
     }
 
@@ -28,11 +28,11 @@ public class DoctorView {
         this.user = user;
     }
 
-    public ExerciseRecord getExerciseRecord() {
-        return exerciseRecord;
+    public AssessmentRecord getAssessmentRecord() {
+        return assessmentRecord;
     }
 
-    public void setExerciseRecord(ExerciseRecord exerciseRecord) {
-        this.exerciseRecord = exerciseRecord;
+    public void setAssessmentRecord(AssessmentRecord assessmentRecord) {
+        this.assessmentRecord = assessmentRecord;
     }
 }

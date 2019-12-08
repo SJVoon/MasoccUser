@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
-        btnStartExercise = findViewById(R.id.button_start_exercise);
+        btnStartExercise = findViewById(R.id.button_exercise_one);
         btnStartExercise.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnStartTest = findViewById(R.id.button_start_test);
+        btnStartTest = findViewById(R.id.button_exercise_two);
         btnStartTest.setOnClickListener(new View.OnClickListener(){
 
             @Override

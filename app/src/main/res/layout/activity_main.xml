@@ -10,24 +10,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingBottom="50dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
 
         <Button
-            android:id="@+id/button_start_exercise"
+            android:id="@+id/button_exercise_one"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
             android:background="@drawable/button"
+            android:drawableLeft="@mipmap/level1"
+            android:drawableRight="@drawable/right"
             android:layout_gravity="center"
+            android:drawablePadding="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Exercise Level 1" />
 
         <Button
-            android:id="@+id/button_start_test"
+            android:id="@+id/button_exercise_two"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
             android:background="@drawable/button"
+            android:drawableLeft="@mipmap/level2"
+            android:drawableRight="@drawable/right"
             android:layout_gravity="center"
+            android:drawablePadding="16dp"
             android:text="Exercise Level 2" />
 
     </LinearLayout>

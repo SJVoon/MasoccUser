@@ -6,13 +6,19 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +39,7 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
     private TextView tvType, tvDate, tvFeeling, tvData;
     private ImageView ivImage;
     private EditText etComment;
+    private Button btnSave;
     String userKey, exerciseKey;
     Intent intent;
     ExerciseRecord record;
@@ -43,14 +50,16 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doctor_patient_exercise_review);
 
-        exerciseRecordList = new ArrayList<>();
+        //exerciseRecordList = new ArrayList<>();
         context = this;
         intent = getIntent();
         userKey = intent.getStringExtra("userKey");
         exerciseKey = intent.getStringExtra("exerciseKey");
+        record = new ExerciseRecord();
+        setupUI();
 
         database = FirebaseDatabase.getInstance();
-        exerciseReference = database.getReference().child("userExercise").child(userKey);
+        exerciseReference = database.getReference().child("userExercise").child(userKey).child(exerciseKey);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference().child("userExercise").child(userKey);
@@ -58,13 +67,8 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
         exerciseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                exerciseRecordList.clear();
-                for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
-                    ExerciseRecord u = userSnapShot.getValue(ExerciseRecord.class);
-                    if(exerciseKey.equals(userSnapShot.getKey())){
-                        record = u;
-                    }
-                }
+                record = dataSnapshot.getValue(ExerciseRecord.class);
+                setData();
             }
 
             @Override
@@ -72,14 +76,40 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
             }
         });
 
-        setupUI();
-        setData(record);
+//        setupUI();
+//        setData(record);
 
         storageReference.getDownloadUrl().addOnSuccessListener(
                 new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         Glide.with(context).load(uri.toString()).into(ivImage);
+                    }
+                }
+        );
+
+        btnSave.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        record.setComment(etComment.getText().toString().trim());
+                        exerciseReference.setValue(record).addOnSuccessListener(
+                                new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(DoctorPatientExerciseReview.this, "Comment complete!", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }
+                        ).addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        finish();
+                                    }
+                                }
+                        );
+
                     }
                 }
         );
@@ -92,13 +122,15 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
         etComment = findViewById(R.id.comment);
         tvData = findViewById(R.id.data);
         ivImage = findViewById(R.id.image);
+        btnSave = findViewById(R.id.save);
     }
 
-    private void setData(ExerciseRecord er) {
-        tvType.setText(er.getType());
-        tvDate.setText(er.getDate());
-        tvFeeling.setText(er.getFeeling());
-        tvData.setText(er.getData());
+    private void setData() {
+        tvType.setText(record.getType());
+        tvDate.setText(record.getDate());
+        tvFeeling.setText(record.getFeeling());
+        tvData.setText(record.getData());
+        etComment.setText(record.getComment());
     }
 
 }

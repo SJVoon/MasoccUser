@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class DoctorPatientAssessmentListAdapter extends RecyclerView.Adapter<DoctorPatientAssessmentListAdapter.ViewHolder> {
-    private List<ExerciseRecord> exerciseList;
+    private List<AssessmentRecord> exerciseList;
     private List<String> exerciseKeyList;
     private LayoutInflater mInflater;
     private Context context;
@@ -20,7 +20,7 @@ public class DoctorPatientAssessmentListAdapter extends RecyclerView.Adapter<Doc
     private String key;
 
     // data is passed into the constructor
-    DoctorPatientAssessmentListAdapter(Context c, List<ExerciseRecord> userList, List<String> list, String k) {
+    DoctorPatientAssessmentListAdapter(Context c, List<AssessmentRecord> userList, List<String> list, String k) {
         this.context = c;
         this.mInflater = LayoutInflater.from(c);
         this.exerciseList = userList;
@@ -56,7 +56,7 @@ public class DoctorPatientAssessmentListAdapter extends RecyclerView.Adapter<Doc
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(context, DoctorPatientExerciseReview.class);
+                        Intent intent = new Intent(context, DoctorPatientAssessmentReview.class);
                         intent.putExtra("userKey",key);
                         intent.putExtra("exerciseKey",exerciseKeyList.get(p));
                         context.startActivity(intent);
@@ -92,7 +92,7 @@ public class DoctorPatientAssessmentListAdapter extends RecyclerView.Adapter<Doc
     }
 
     // convenience method for getting data at click position
-    ExerciseRecord getItem(int id) {
+    AssessmentRecord getItem(int id) {
         System.out.println("id" + id);
         return exerciseList.get(id);
     }

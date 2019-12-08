@@ -46,20 +46,16 @@ public class DoctorEditProfile extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        myIntent1 = new Intent(DoctorEditProfile.this, MainActivity.class);
+                    case R.id.navigation_exercise:
+                        myIntent1 = new Intent(DoctorEditProfile.this, DoctorPatientList.class);
                         startActivity(myIntent1);
                         return true;
-                    case R.id.navigation_dashboard:
-                        myIntent2 = new Intent(DoctorEditProfile.this, Assessment.class);
+                    case R.id.navigation_assessment:
+                        myIntent2 = new Intent(DoctorEditProfile.this, DoctorPatientAssList.class);
                         startActivity(myIntent2);
                         return true;
-                    case R.id.navigation_history:
-                        myIntent3 = new Intent(DoctorEditProfile.this, History.class);
-                        startActivity(myIntent3);
-                        return true;
                     case R.id.navigation_profile:
-                        myIntent4 = new Intent(DoctorEditProfile.this, Profile.class);
+                        myIntent4 = new Intent(DoctorEditProfile.this, DoctorProfile.class);
                         startActivity(myIntent4);
                         return true;
                 }
