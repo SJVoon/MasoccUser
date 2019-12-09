@@ -126,17 +126,19 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
         tvData.setText(record.getData());
         etComment.setText(record.getComment());
 
-        storageReference.child(record.getUri()).getDownloadUrl().addOnSuccessListener(
-                new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
+        if(!record.getUri().isEmpty() || !record.getUri().matches("")) {
+            storageReference.child(record.getUri()).getDownloadUrl().addOnSuccessListener(
+                    new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
 //                        tvImage.setText("Image captured after exercise");
-                        tvImage.setVisibility(View.VISIBLE);
-                        ivImage.setVisibility(View.VISIBLE);
-                        Glide.with(context).load(uri.toString()).into(ivImage);
+                            tvImage.setVisibility(View.VISIBLE);
+                            ivImage.setVisibility(View.VISIBLE);
+                            Glide.with(context).load(uri.toString()).into(ivImage);
+                        }
                     }
-                }
-        );
+            );
+        }
     }
 
 }
