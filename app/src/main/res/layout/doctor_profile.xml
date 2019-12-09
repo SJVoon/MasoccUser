@@ -10,40 +10,49 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="50dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/button_change_password"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:drawableLeft="@drawable/password"
+            android:drawableRight="@drawable/right"
+            android:drawablePadding="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_gravity="center"
-            android:textAlignment="center"
             android:text="Change Password"
-            android:layout_weight="2"
-            android:layout_height="100dp"
             android:background="@drawable/button"/>
 
         <Button
             android:id="@+id/button_edit_profile"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAlignment="center"
+            android:padding="15dp"
+            android:drawableLeft="@drawable/edit"
+            android:drawableRight="@drawable/right"
+            android:drawablePadding="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Edit Profile"
-            android:layout_weight="2"
-            android:layout_height="100dp"
             android:background="@drawable/button"/>
 
         <Button
             android:id="@+id/button_logout"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAlignment="center"
+            android:padding="15dp"
+            android:drawableLeft="@drawable/logout"
+            android:drawableRight="@drawable/right"
+            android:drawablePadding="16dp"
             android:text="Logout"
-            android:layout_weight="2"
-            android:layout_height="100dp"
             android:background="@drawable/button"/>
 
     </LinearLayout>

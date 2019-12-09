@@ -87,6 +87,7 @@ public class Exercise extends YouTubeBaseActivity {
     String key, recordKey;
     Vibrator vibrate;
     Ringtone r;
+    ExerciseRecord er;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -427,8 +428,8 @@ public class Exercise extends YouTubeBaseActivity {
         }
 
         timeRecord = temp;
-        ExerciseRecord er = new ExerciseRecord(date, type, timeRecord, feeling);
-
+        er = new ExerciseRecord(date, type, timeRecord, feeling);
+        er.setData("96");
         recordKey = mDatabase.child(key).push().getKey();
         mDatabase.child(key).child(recordKey).setValue(er)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -488,6 +489,8 @@ public class Exercise extends YouTubeBaseActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        er.setUri(imgUri.getLastPathSegment());
+        mDatabase.child(key).child(recordKey).setValue(er);
         uploadTask = usersRef.putFile(imgUri);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

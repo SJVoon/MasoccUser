@@ -6,4 +6,5 @@
     <color name="colorAccent">#A8E6CF</color>
     <color name="colorAccentLight">#DCEDC1</color>
     <color name="colorBackgroundTemp">#E0FFFF</color>
+    <color name="colorRedLight">#F08080</color>
 </resources>

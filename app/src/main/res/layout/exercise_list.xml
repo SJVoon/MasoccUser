@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="100dp"
             android:orientation="vertical">
 
             <TextView
@@ -25,8 +26,7 @@
                 android:gravity="center"
                 android:text="Exercise Level 1"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="30dp"
-                android:textStyle="bold" />
+                android:textSize="30dp"/>
 
             <Button
                 android:id="@+id/button_random"
@@ -76,9 +76,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_marginBottom="30dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:background="@drawable/container"/>
-
-
 
         </LinearLayout>
     </ScrollView>
@@ -86,7 +86,7 @@
     <Button
         android:id="@+id/button_start"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:background="@drawable/button"

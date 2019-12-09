@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ExerciseRecord {
     private String date, type, feeling, comment;
-    private String[] data;
+    private String data, uri;
     private List<String> time;
     //private boolean start, finish;
 
@@ -12,7 +12,7 @@ public class ExerciseRecord {
 
     }
 
-    public ExerciseRecord(String date, String type, List<String> time, String feeling,String comment, String[] data){
+    public ExerciseRecord(String date, String type, List<String> time, String feeling,String comment, String data){
         this.date = date;
         this.type = type;
         this.time = time;
@@ -27,7 +27,8 @@ public class ExerciseRecord {
         this.time = time;
         this.feeling = feeling;
         this.comment = "";
-        this.data = new String[0];
+        this.data = "";
+        this.uri = "";
     }
 
     public void setDate(String date) { this.date = date; }
@@ -36,9 +37,9 @@ public class ExerciseRecord {
 
     public void setFeeling(String feeling) { this.feeling = feeling; }
 
-    public String[] getData() { return data; }
+    public String getData() { return data; }
 
-    public void setData(String[] data) { this.data = data; }
+    public void setData(String data) { this.data = data; }
 
     public void setTime(List<String> time) { this.time = time; }
 
@@ -53,6 +54,14 @@ public class ExerciseRecord {
     public List<String> getTime() { return time; }
 
     public String getFeeling() { return feeling; }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
 //    public boolean isStart() {
 //        return start;

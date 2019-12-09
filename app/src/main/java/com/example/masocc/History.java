@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +22,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class History extends AppCompatActivity {
-    private TextView mTextMessage;
+    private TextView mTextMessage, tvBpm;
     protected BottomNavigationView navView;
     Intent myIntent1, myIntent2, myIntent4;
     private FirebaseDatabase database;
@@ -33,6 +41,7 @@ public class History extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager layoutManager;
     private List<ExerciseRecord> exerciseList;
+    private ImageView day1, day2, day3;
     String key;
     SharedPreferences sharedPreferences;
 
@@ -86,6 +95,7 @@ public class History extends AppCompatActivity {
                     exerciseList.add(u);
                 }
                 //update();
+                load();
                 mAdapter.notifyDataSetChanged();
             }
             @Override
@@ -101,6 +111,13 @@ public class History extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
         mAdapter = new HistoryAdapter(this, exerciseList);
         recyclerView.setAdapter(mAdapter);
+
+        tvBpm = findViewById(R.id.bpm);
+        day1 = findViewById(R.id.day1);
+        day2 = findViewById(R.id.day2);
+        day3 = findViewById(R.id.day3);
+
+
     }
 
     @Override
@@ -109,4 +126,54 @@ public class History extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
+    public long calDif(Date firstDate){
+        Date secondDate = Calendar.getInstance().getTime();
+        long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+        return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    }
+
+    public void load(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        Date firstDate = null;
+
+        ArrayList<ExerciseRecord> temp = new ArrayList<>();
+        for(ExerciseRecord er : exerciseList){
+            Log.d("1",Calendar.getInstance().getTime().toString());
+            try {
+                firstDate = sdf.parse(er.getDate());
+                Log.d("2",firstDate.toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Log.d("3",Long.toString(calDif(firstDate)));
+            if(calDif(firstDate) < 7){
+                temp.add(er);
+            }
+        }
+
+        if(temp.size()>=3){
+            day1.setImageResource(R.drawable.check);
+            day2.setImageResource(R.drawable.check);
+            day3.setImageResource(R.drawable.check);
+            Toast.makeText(History.this, "Well done! You have completed the exercises! Come Back 2 days later!", Toast.LENGTH_SHORT).show();
+        }else if(temp.size() == 2){
+            day1.setImageResource(R.drawable.check);
+            day2.setImageResource(R.drawable.check);
+            Toast.makeText(History.this, "Well done! You are one exercise away to complete! Start exercise now!", Toast.LENGTH_SHORT).show();
+        }else if(temp.size() == 1){
+            day1.setImageResource(R.drawable.check);
+            Toast.makeText(History.this, "You have completed one exercise, keep it up! Start exercise now!", Toast.LENGTH_SHORT).show();
+        }
+
+        if(temp.size() > 0) {
+            int bpm = 0;
+            for (ExerciseRecord er : temp) {
+                bpm += Integer.parseInt(er.getData());
+            }
+            bpm = bpm / temp.size();
+            tvBpm.setText(Integer.toString(bpm));
+        }else{
+            tvBpm.setText("BPM");
+        }
+    }
 }

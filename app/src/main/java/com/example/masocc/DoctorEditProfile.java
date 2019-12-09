@@ -68,7 +68,7 @@ public class DoctorEditProfile extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         database = FirebaseDatabase.getInstance();
-        mDatabase = database.getReference().child("users");
+        mDatabase = database.getReference().child("doctors");
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -88,7 +88,8 @@ public class DoctorEditProfile extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 define();
                 if (validate()) {
-                    editProfile();
+                    Toast.makeText(DoctorEditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
+                    //editProfile();
                 }
 
             }
@@ -113,37 +114,36 @@ public class DoctorEditProfile extends AppCompatActivity {
     }
 
     private void setData() {
-        etUsername.setText(User.getInstance().getUsername());
-        etFullName.setText(User.getInstance().getFullName());
-        etEmail.setText(User.getInstance().getEmail());
-        etICNumber.setText(User.getInstance().getIcNumber());
-        etHandphoneNumber.setText(User.getInstance().getHandphoneNumber());
+        etUsername.setText(Doctor.getInstance().getUsername());
+        etFullName.setText(Doctor.getInstance().getFullName());
+        etEmail.setText(Doctor.getInstance().getEmail());
+        etICNumber.setText(Doctor.getInstance().getIcNumber());
+        etHandphoneNumber.setText(Doctor.getInstance().getHandphoneNumber());
     }
 
     private boolean validate() {
-        boolean check = true;
 
         if (TextUtils.isEmpty(username)) {
             Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(icNumber) || icNumber.length() != 12) {
             Toast.makeText(getApplicationContext(), "Enter valid IC number!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(handphoneNumber) && !handphoneNumber.matches("^[0-9]*$")) {
             Toast.makeText(getApplicationContext(), "Enter valid handphone number!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
-        return check;
+        return true;
     }
 
     private void editProfile() {
@@ -155,15 +155,7 @@ public class DoctorEditProfile extends AppCompatActivity {
                                                   mDatabase = mDatabase.child("" + username);
                                                   Map<String, String> userData = new HashMap<>();
 
-                                                  User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword(),User.getInstance().getDoctor());
-
-
-//                            userData.put("username",user.getUsername());
-//                            userData.put("fullname",user.getFullName());
-//                            userData.put("email",user.getEmail());
-//                            userData.put("icNumber", user.getIcNumber());
-//                            userData.put("handphoneNumber",user.getHandphoneNumber());
-//                            userData.put("password",user.getPassword());
+                                                  Doctor.getInstance().setDoctor(username, fullName, email, icNumber, handphoneNumber, Doctor.getInstance().getPassword());
 
                                                   mDatabase.setValue(User.getInstance())
                                                           .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -172,13 +164,12 @@ public class DoctorEditProfile extends AppCompatActivity {
                                                                   Toast.makeText(DoctorEditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
                                                                   SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
                                                                   SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                                  editor.putString("fullName", User.getInstance().getFullName());
-                                                                  editor.putString("username", User.getInstance().getUsername());
-                                                                  editor.putString("password", User.getInstance().getPassword());
-                                                                  editor.putString("email", User.getInstance().getEmail());
-                                                                  editor.putString("icNumber", User.getInstance().getIcNumber());
-                                                                  editor.putString("handphoneNumber", User.getInstance().getHandphoneNumber());
-                                                                  editor.putString("doctor", User.getInstance().getDoctor());
+                                                                  editor.putString("fullName", Doctor.getInstance().getFullName());
+                                                                  editor.putString("username", Doctor.getInstance().getUsername());
+                                                                  editor.putString("password", Doctor.getInstance().getPassword());
+                                                                  editor.putString("email", Doctor.getInstance().getEmail());
+                                                                  editor.putString("icNumber", Doctor.getInstance().getIcNumber());
+                                                                  editor.putString("handphoneNumber", Doctor.getInstance().getHandphoneNumber());
                                                                   editor.apply();
                                                                   finish();
                                                               }
@@ -206,13 +197,6 @@ public class DoctorEditProfile extends AppCompatActivity {
             Map<String, String> userData = new HashMap<>();
 
             User.getInstance().setUser(User.getInstance().getUsername(), fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword(), User.getInstance().getDoctor());
-
-//            userData.put("username",user.getUsername());
-//            userData.put("fullname",user.getFullName());
-//            userData.put("email",user.getEmail());
-//            userData.put("icNumber", user.getIcNumber());
-//            userData.put("handphoneNumber",user.getHandphoneNumber());
-//            userData.put("password",user.getPassword());
 
             mDatabase.setValue(User.getInstance())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

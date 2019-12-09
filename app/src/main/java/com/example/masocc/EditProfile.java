@@ -125,29 +125,27 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private boolean validate() {
-        boolean check = true;
-
         if (TextUtils.isEmpty(username)) {
             Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(icNumber) || icNumber.length() != 12) {
             Toast.makeText(getApplicationContext(), "Enter valid IC number!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
         if (TextUtils.isEmpty(handphoneNumber) && !handphoneNumber.matches("^[0-9]*$")) {
             Toast.makeText(getApplicationContext(), "Enter valid handphone number!", Toast.LENGTH_SHORT).show();
-            return check = false;
+            return false;
         }
 
-        return check;
+        return true;
     }
 
     private void editProfile() {
@@ -160,14 +158,6 @@ public class EditProfile extends AppCompatActivity {
                                                   Map<String, String> userData = new HashMap<>();
 
                                                   User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword(),User.getInstance().getDoctor());
-
-
-//                            userData.put("username",user.getUsername());
-//                            userData.put("fullname",user.getFullName());
-//                            userData.put("email",user.getEmail());
-//                            userData.put("icNumber", user.getIcNumber());
-//                            userData.put("handphoneNumber",user.getHandphoneNumber());
-//                            userData.put("password",user.getPassword());
 
                                                   mDatabase.setValue(User.getInstance())
                                                           .addOnSuccessListener(new OnSuccessListener<Void>() {

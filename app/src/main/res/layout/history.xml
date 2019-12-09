@@ -23,16 +23,98 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:text="Exercise History"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:textColor="@color/colorPrimaryDark" />
+                android:text="Dashboard"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Days completed exercise"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="16dp"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/day1"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginRight="8dp"
+                            android:src="@drawable/done" />
+
+                        <ImageView
+                            android:id="@+id/day2"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:src="@drawable/done" />
+
+                        <ImageView
+                            android:id="@+id/day3"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="8dp"
+                            android:src="@drawable/done" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="16dp"
+                        android:text="Average BPM"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/bpm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="80"
+                        android:textAlignment="center"
+                        android:textSize="35dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginRight="16dp"
                 android:orientation="horizontal">
 
@@ -42,20 +124,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="8dp"
-                    android:text="Exercise Date"
-                    android:textStyle="bold"
+                    android:text="History Exercise Date"
                     android:textColor="#000"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:paddingRight="8dp"
                     android:text="Exercise Type"
-                    android:textStyle="bold"
                     android:textColor="#000"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -64,7 +146,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:layout_marginBottom="30dp"
                 android:background="@drawable/container"
                 android:scrollbars="vertical" />
 

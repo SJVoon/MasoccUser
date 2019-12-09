@@ -92,6 +92,7 @@ public class DoctorPatientList extends AppCompatActivity {
                 for(DataSnapshot dss : dataSnapshot.getChildren()){
                     userKeyList.add(dss.getValue(String.class));
                 }
+                mAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

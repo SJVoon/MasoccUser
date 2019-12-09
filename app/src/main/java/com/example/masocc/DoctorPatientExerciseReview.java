@@ -36,7 +36,7 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private List<ExerciseRecord> exerciseRecordList;
-    private TextView tvType, tvDate, tvFeeling, tvData;
+    private TextView tvType, tvDate, tvFeeling, tvData, tvImage;
     private ImageView ivImage;
     private EditText etComment;
     private Button btnSave;
@@ -79,14 +79,7 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
 //        setupUI();
 //        setData(record);
 
-        storageReference.getDownloadUrl().addOnSuccessListener(
-                new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(context).load(uri.toString()).into(ivImage);
-                    }
-                }
-        );
+
 
         btnSave.setOnClickListener(
                 new View.OnClickListener() {
@@ -123,6 +116,7 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
         tvData = findViewById(R.id.data);
         ivImage = findViewById(R.id.image);
         btnSave = findViewById(R.id.save);
+        tvImage = findViewById(R.id.image_text);
     }
 
     private void setData() {
@@ -131,6 +125,18 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
         tvFeeling.setText(record.getFeeling());
         tvData.setText(record.getData());
         etComment.setText(record.getComment());
+
+        storageReference.child(record.getUri()).getDownloadUrl().addOnSuccessListener(
+                new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+//                        tvImage.setText("Image captured after exercise");
+                        tvImage.setVisibility(View.VISIBLE);
+                        ivImage.setVisibility(View.VISIBLE);
+                        Glide.with(context).load(uri.toString()).into(ivImage);
+                    }
+                }
+        );
     }
 
 }

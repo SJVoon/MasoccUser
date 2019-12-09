@@ -43,7 +43,7 @@ public class DoctorPatientExerciseListAdapter extends RecyclerView.Adapter<Docto
         String check;
         if(exerciseList.get(p).getComment().equals("")) {
             check = "Unchecked";
-            holder.ll.setBackgroundResource(R.color.colorPrimary);
+            holder.ll.setBackgroundResource(R.color.colorRedLight);
         }
         else {
             check = "Checked";
