@@ -20,15 +20,6 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DoctorChangePassword"/>
-        <activity android:name=".DoctorEditProfile"/>
-        <activity android:name=".DoctorPatientList"/>
-        <activity android:name=".DoctorPatientExerciseList"/>
-        <activity android:name=".DoctorPatientExerciseReview"/>
-        <activity android:name=".DoctorPatientAssList"/>
-        <activity android:name=".DoctorPatientAssessmentList"/>
-        <activity android:name=".DoctorPatientAssessmentReview"/>
-        <activity android:name=".DoctorProfile"/>
         <activity android:name=".HistoryDisplay"/>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".Registration"></activity>
