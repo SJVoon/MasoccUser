@@ -16,11 +16,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +26,12 @@ import java.util.Date;
 import java.util.List;
 
 public class Assessment extends AppCompatActivity {
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //IMPORTANT
+    //The Assessment is hardcoded for demo purpose
+    //Please use adapter and recycle view to display all the question and answer form if question is confirmed
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private TextView mTextMessage;
     protected BottomNavigationView navView;
@@ -61,11 +64,11 @@ public class Assessment extends AppCompatActivity {
                         myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent1);
                         return true;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_assessment:
                         Toast.makeText(Assessment.this, "You are on assessment page now", Toast.LENGTH_SHORT).show();
                         return true;
-                    case R.id.navigation_history:
-                        myIntent3 = new Intent(Assessment.this, History.class);
+                    case R.id.navigation_dashboard:
+                        myIntent3 = new Intent(Assessment.this, Dashboard.class);
                         myIntent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent3);
                         return true;
@@ -80,7 +83,7 @@ public class Assessment extends AppCompatActivity {
         };
 
         navView = findViewById(R.id.nav_view);
-        MenuItem item = navView.getMenu().findItem(R.id.navigation_dashboard);
+        MenuItem item = navView.getMenu().findItem(R.id.navigation_assessment);
         item.setChecked(true);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         assessmentRecordList = new ArrayList<>();
@@ -149,7 +152,6 @@ public class Assessment extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(Assessment.this, "Add assessment record successful!", Toast.LENGTH_LONG).show();
-                        finish();
                     }})
                 .addOnFailureListener(new OnFailureListener() {
                     @Override

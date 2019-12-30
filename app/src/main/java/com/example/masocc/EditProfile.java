@@ -33,7 +33,7 @@ public class EditProfile extends AppCompatActivity {
     private Intent myIntent1, myIntent2, myIntent3, myIntent4;
     private Button btnEditProfile;
     private EditText etUsername, etICNumber, etEmail, etHandphoneNumber, etFullName;
-    private String username, icNumber, email, handphoneNumber, fullName;
+    private String username, icNumber, email, handphoneNumber, fullName, key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +51,13 @@ public class EditProfile extends AppCompatActivity {
                         myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent1);
                         return true;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_assessment:
                         myIntent2 = new Intent(EditProfile.this, Assessment.class);
                         myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent2);
                         return true;
-                    case R.id.navigation_history:
-                        myIntent3 = new Intent(EditProfile.this, History.class);
+                    case R.id.navigation_dashboard:
+                        myIntent3 = new Intent(EditProfile.this, Dashboard.class);
                         myIntent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent3);
                         return true;
@@ -81,6 +81,12 @@ public class EditProfile extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
+                    User u = userSnapShot.getValue(User.class);
+                    if (u.getUsername().equals(User.getInstance().getUsername())) {
+                        key = userSnapShot.getKey();
+                    }
+                }
             }
 
             @Override
@@ -153,90 +159,33 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void editProfile() {
-        if (User.getInstance().getUsername() != username) {
-            mDatabase.child("" + User.getInstance().getUsername()).removeValue()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                              @Override
-                                              public void onSuccess(Void aVoid) {
-                                                  mDatabase = mDatabase.child("" + username);
-                                                  Map<String, String> userData = new HashMap<>();
 
-                                                  User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword(),User.getInstance().getDoctor());
+        User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword());
 
-                                                  mDatabase.setValue(User.getInstance())
-                                                          .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                              @Override
-                                                              public void onSuccess(Void aVoid) {
-                                                                  Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
-                                                                  SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
-                                                                  SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                                  editor.putString("fullName", User.getInstance().getFullName());
-                                                                  editor.putString("username", User.getInstance().getUsername());
-                                                                  editor.putString("password", User.getInstance().getPassword());
-                                                                  editor.putString("email", User.getInstance().getEmail());
-                                                                  editor.putString("icNumber", User.getInstance().getIcNumber());
-                                                                  editor.putString("handphoneNumber", User.getInstance().getHandphoneNumber());
-                                                                  editor.putString("doctor", User.getInstance().getDoctor());
-                                                                  editor.apply();
-                                                                  finish();
-                                                              }
-                                                          })
-                                                          .addOnFailureListener(new OnFailureListener() {
-                                                              @Override
-                                                              public void onFailure(@NonNull Exception e) {
-                                                                  Toast.makeText(EditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
-                                                                  finish();
-                                                              }
-                                                          });
+        mDatabase.child(key).setValue(User.getInstance())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
+                        SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("fullName", User.getInstance().getFullName());
+                        editor.putString("username", User.getInstance().getUsername());
+                        editor.putString("password", User.getInstance().getPassword());
+                        editor.putString("email", User.getInstance().getEmail());
+                        editor.putString("icNumber", User.getInstance().getIcNumber());
+                        editor.putString("handphoneNumber", User.getInstance().getHandphoneNumber());
+                        editor.apply();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
 
-                                              }
-                                          }
-                    )
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfile.this, "Edit profile fail! Try again later", Toast.LENGTH_LONG).show();
-                            finish();
-                        }
-                    });
-        } else {
-            mDatabase = mDatabase.child("" + username);
-            Map<String, String> userData = new HashMap<>();
-
-            User.getInstance().setUser(User.getInstance().getUsername(), fullName, email, icNumber, handphoneNumber, User.getInstance().getPassword(), User.getInstance().getDoctor());
-
-//            userData.put("username",user.getUsername());
-//            userData.put("fullname",user.getFullName());
-//            userData.put("email",user.getEmail());
-//            userData.put("icNumber", user.getIcNumber());
-//            userData.put("handphoneNumber",user.getHandphoneNumber());
-//            userData.put("password",user.getPassword());
-
-            mDatabase.setValue(User.getInstance())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(EditProfile.this, "Edit profile successful!", Toast.LENGTH_LONG).show();
-                            SharedPreferences sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("fullName", User.getInstance().getFullName());
-                            editor.putString("username", User.getInstance().getUsername());
-                            editor.putString("password", User.getInstance().getPassword());
-                            editor.putString("email", User.getInstance().getEmail());
-                            editor.putString("icNumber", User.getInstance().getIcNumber());
-                            editor.putString("handphoneNumber", User.getInstance().getHandphoneNumber());
-                            editor.putString("doctor", User.getInstance().getDoctor());
-                            editor.apply();
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfile.this, "Edit profile Fail! Try again later.", Toast.LENGTH_LONG).show();
-                            finish();
-                        }
-                    });
-        }
     }
 }

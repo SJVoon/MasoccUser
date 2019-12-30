@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".History">
+    tools:context=".Dashboard">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -76,35 +76,6 @@
                             android:layout_marginLeft="8dp"
                             android:src="@drawable/done" />
                     </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingBottom="16dp"
-                        android:text="Average BPM"
-                        android:textAlignment="center"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:id="@+id/bpm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:text="80"
-                        android:textAlignment="center"
-                        android:textSize="35dp" />
 
                 </LinearLayout>
 

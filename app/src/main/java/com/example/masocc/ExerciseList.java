@@ -77,7 +77,7 @@ public class ExerciseList extends AppCompatActivity {
                 editor.putString("videoType", type);
                 editor.apply();
                 Intent myIntent = new Intent(ExerciseList.this, Exercise.class);
-                //myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(myIntent);
             }
         });
@@ -109,7 +109,6 @@ public class ExerciseList extends AppCompatActivity {
                 exerciseTimeList.addAll(temp2);
 
                 mAdapter.notifyDataSetChanged();
-
             }
         });
 

@@ -21,7 +21,7 @@ public class HistoryDisplay extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference exerciseReference;
     private List<ExerciseRecord> exerciseRecordList;
-    private TextView tvType, tvDate, tvFeeling, tvComment, tvData;
+    private TextView tvType, tvDate, tvFeeling;
     SharedPreferences sharedPreferences;
     int tempPosition;
     String key, tempDate;
@@ -70,22 +70,12 @@ public class HistoryDisplay extends AppCompatActivity {
         tvType = findViewById(R.id.type);
         tvDate = findViewById(R.id.date);
         tvFeeling = findViewById(R.id.feeling);
-        tvComment = findViewById(R.id.comment);
-        tvData = findViewById(R.id.data);
     }
 
     private void setData(ExerciseRecord er) {
         tvType.setText(er.getType());
         tvDate.setText(er.getDate());
         tvFeeling.setText(er.getFeeling());
-        tvComment.setText(er.getComment());
-        double bpm = 0;
-        List<String> arr = record.getPulseData();
-        for(String s : arr){
-            bpm += Double.parseDouble(s);
-        }
-        bpm = (bpm/arr.size());
-        tvData.setText(Integer.toString((int)bpm));
     }
 
 }

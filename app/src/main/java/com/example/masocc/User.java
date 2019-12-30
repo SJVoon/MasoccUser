@@ -1,7 +1,7 @@
 package com.example.masocc;
 
 public class User {
-    private String username, email, icNumber,handphoneNumber, password, fullName, doctor;
+    private String username, email, icNumber,handphoneNumber, password, fullName;
 
     private static User ourInstance;
 
@@ -22,17 +22,15 @@ public class User {
         this.icNumber = u.icNumber;
         this.handphoneNumber = u.handphoneNumber;
         this.password = u.password;
-        this.doctor = u.doctor;
     }
 
-    public void setUser(String username, String fullName, String email, String icNumber, String handphoneNumber, String password, String doctor) {
+    public void setUser(String username, String fullName, String email, String icNumber, String handphoneNumber, String password) {
         this.username = username;
         this.fullName = fullName;
         this.email = email;
         this.icNumber = icNumber;
         this.handphoneNumber = handphoneNumber;
         this.password = password;
-        this.doctor = doctor;
     }
 
     public String getFullName() {
@@ -77,24 +75,8 @@ public class User {
         this.password = password;
     }
 
-    public String getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(String doctor) {
-        this.doctor = doctor;
-    }
-
     public void setIcNumber(String icNumber) {
         this.icNumber = icNumber;
-    }
-
-    public boolean isAssigned() {
-        if(this.doctor.isEmpty()){
-            return false;
-        }
-        else
-            return true;
     }
 
     @Override

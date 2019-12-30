@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class      Registration extends AppCompatActivity {
+public class Registration extends AppCompatActivity {
 
     private TextView text;
     private EditText etUsername, etICNumber, etEmail, etHandphoneNumber, etPassword, etConfirmPassword, etFullName;
@@ -72,10 +72,10 @@ public class      Registration extends AppCompatActivity {
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                define();
+                getAllEditText();
                 if(validate()) {
 
-                    User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, MD5Hash.encrypt(password), "");
+                    User.getInstance().setUser(username, fullName, email, icNumber, handphoneNumber, MD5Hash.encrypt(password));
 
                     userReference.push().setValue(User.getInstance())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -113,7 +113,7 @@ public class      Registration extends AppCompatActivity {
         text = findViewById(R.id.sign_in);
     }
 
-    private void define(){
+    private void getAllEditText(){
         username = etUsername.getText().toString().trim();
         icNumber = etICNumber.getText().toString().trim();
         email = etEmail.getText().toString().trim();
@@ -132,6 +132,10 @@ public class      Registration extends AppCompatActivity {
             }
             if(userList.get(i).getIcNumber().matches(icNumber)){
                 Toast.makeText(getApplicationContext(), "This IC Number is registered!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if(userList.get(i).getEmail().matches(email)){
+                Toast.makeText(getApplicationContext(), "This Email is registered!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -157,12 +161,12 @@ public class      Registration extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(handphoneNumber) || !handphoneNumber.matches("^[0-9]*$")) {
-            Toast.makeText(getApplicationContext(), "Enter valid handphone number!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Enter valid hand phone number!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(password) || password.length() < 4) {
-            Toast.makeText(getApplicationContext(), "Enter password with at least 4 characters!", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(password) || password.length() < 8) {
+            Toast.makeText(getApplicationContext(), "Enter password with at least 8 characters!", Toast.LENGTH_SHORT).show();
             return false;
         }
 

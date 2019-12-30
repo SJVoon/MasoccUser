@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class History extends AppCompatActivity {
-    private TextView mTextMessage, tvBpm;
+public class Dashboard extends AppCompatActivity {
+    private TextView mTextMessage;
     protected BottomNavigationView navView;
     Intent myIntent1, myIntent2, myIntent4;
     private FirebaseDatabase database;
@@ -58,24 +58,24 @@ public class History extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        myIntent1 = new Intent(History.this,MainActivity.class);
+                        myIntent1 = new Intent(Dashboard.this,MainActivity.class);
                         myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         exerciseReference.removeEventListener(vel);
                         startActivity(myIntent1);
                         finish();
                         return true;
-                    case R.id.navigation_dashboard:
-                        myIntent2 = new Intent(History.this, Assessment.class);
+                    case R.id.navigation_assessment:
+                        myIntent2 = new Intent(Dashboard.this, Assessment.class);
                         myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         exerciseReference.removeEventListener(vel);
                         startActivity(myIntent2);
                         finish();
                         return true;
-                    case R.id.navigation_history:
-                        Toast.makeText(History.this, "You are on History page now", Toast.LENGTH_SHORT).show();
+                    case R.id.navigation_dashboard:
+                        Toast.makeText(Dashboard.this, "You are on Dashboard page now", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.navigation_profile:
-                        myIntent4 = new Intent(History.this, Profile.class);
+                        myIntent4 = new Intent(Dashboard.this, Profile.class);
                         myIntent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         exerciseReference.removeEventListener(vel);
                         startActivity(myIntent4);
@@ -86,7 +86,7 @@ public class History extends AppCompatActivity {
             }
         };
         navView = findViewById(R.id.nav_view);
-        MenuItem item = navView.getMenu().findItem(R.id.navigation_history);
+        MenuItem item = navView.getMenu().findItem(R.id.navigation_dashboard);
         item.setChecked(true);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -124,7 +124,6 @@ public class History extends AppCompatActivity {
         mAdapter = new HistoryAdapter(this, exerciseList);
         recyclerView.setAdapter(mAdapter);
 
-        tvBpm = findViewById(R.id.bpm);
         day1 = findViewById(R.id.day1);
         day2 = findViewById(R.id.day2);
         day3 = findViewById(R.id.day3);
@@ -168,32 +167,16 @@ public class History extends AppCompatActivity {
             day1.setImageResource(R.drawable.check);
             day2.setImageResource(R.drawable.check);
             day3.setImageResource(R.drawable.check);
-            Toast.makeText(History.this, "Well done! You have completed the exercises! Come Back 2 days later!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Dashboard.this, "Well done! You have completed the exercises! Come Back 2 days later!", Toast.LENGTH_SHORT).show();
         }else if(temp.size() == 2){
             day1.setImageResource(R.drawable.check);
             day2.setImageResource(R.drawable.check);
-            Toast.makeText(History.this, "Well done! You are one exercise away to complete! Start exercise now!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Dashboard.this, "Well done! You are one exercise away to complete! Start exercise now!", Toast.LENGTH_SHORT).show();
         }else if(temp.size() == 1){
             day1.setImageResource(R.drawable.check);
-            Toast.makeText(History.this, "You have completed one exercise, keep it up! Start exercise now!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Dashboard.this, "You have completed one exercise, keep it up! Start exercise now!", Toast.LENGTH_SHORT).show();
         }
 
-        if(temp.size() > 0) {
-            double bpm = 0, tempBpm = 0;
-            for (ExerciseRecord er : temp) {
-                List<String> arr = er.getPulseData();
-                tempBpm = 0;
-                for(String s : arr){
-//                    s = s.substring(0,s.length()-2);
-                    tempBpm += Double.parseDouble(s);
-                }
-                bpm += (tempBpm/arr.size());
-            }
-            bpm = bpm / temp.size();
-            tvBpm.setText(Integer.toString((int)bpm));
-        }else{
-            tvBpm.setText("BPM");
-        }
     }
 
     @Override

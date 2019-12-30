@@ -44,16 +44,6 @@
                 android:inputType="textPassword"
                 android:textAlignment="center" />
 
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:textColor="#696969"
-                android:text="Physician"
-                android:textSize="18dp" />
-
             <Button
                 android:id="@+id/button_signin"
                 android:layout_width="200dp"

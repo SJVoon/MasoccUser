@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myIntent1 = new Intent(MainActivity.this, ExerciseList.class);
-
+        myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         btnStartExercise = findViewById(R.id.button_exercise_one);
         btnStartExercise.setOnClickListener(new View.OnClickListener(){
@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_home:
                         Toast.makeText(MainActivity.this, "You are on Home page now", Toast.LENGTH_SHORT).show();
                         return true;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_assessment:
                         myIntent2 = new Intent(MainActivity.this, Assessment.class);
                         myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent2);
                         return true;
-                    case R.id.navigation_history:
-                        myIntent3 = new Intent(MainActivity.this, History.class);
+                    case R.id.navigation_dashboard:
+                        myIntent3 = new Intent(MainActivity.this, Dashboard.class);
                         myIntent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent3);
                         return true;
