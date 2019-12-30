@@ -57,7 +57,7 @@ public class Exercise extends YouTubeBaseActivity {
     protected static final int REQUEST_TAKE_PHOTO = 1;
 
     private Button btnStart, btnEnd, btnReset;
-    private TextView tvStopwatchName, tvVideoName;
+    private TextView tvStopwatchName, tvVideoName, tvBPM;
     private Handler handler;
     private Uri imgUri;
     private long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
@@ -81,10 +81,10 @@ public class Exercise extends YouTubeBaseActivity {
     private List<ExerciseRecord> exerciseRecordList;
     private FirebaseDatabase database;
     private FirebaseStorage storage;
-    private DatabaseReference mDatabase, userDatabase;
+    private DatabaseReference mDatabase, bpmDatabase;
     private StorageReference mStorage;
     private SharedPreferences sharedPreferences;
-    String key, recordKey;
+    String key, recordKey, tempBPM = "BPM";
     Vibrator vibrate;
     Ringtone r;
     ExerciseRecord er;
@@ -96,6 +96,7 @@ public class Exercise extends YouTubeBaseActivity {
 
         sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         type = sharedPreferences.getString("videoType", null);
+        key = sharedPreferences.getString("key",null);
         String s = sharedPreferences.getString("list",null);
         String str = s.substring(1,s.length()-1);
         currentExerciseList = str.split(", ");
@@ -117,13 +118,6 @@ public class Exercise extends YouTubeBaseActivity {
                     }
                 }
             }
-//            //storage
-//            storage = FirebaseStorage.getInstance();
-//            mStorage = storage.getReference().child("userExerciseLevelOne");
-//
-//            //database
-//            database = FirebaseDatabase.getInstance();
-//            mDatabase = database.getReference().child("userExerciseLevelOne");
         }
         else{
             for (int i = 0; i < currentExerciseList.length; i++) {
@@ -133,13 +127,6 @@ public class Exercise extends YouTubeBaseActivity {
                     }
                 }
             }
-//            //storage
-//            storage = FirebaseStorage.getInstance();
-//            mStorage = storage.getReference().child("userExerciseLevelTwo");
-//
-//            //database
-//            database = FirebaseDatabase.getInstance();
-//            mDatabase = database.getReference().child("userExerciseLevelTwo");
         }
 
         //storage
@@ -149,7 +136,16 @@ public class Exercise extends YouTubeBaseActivity {
         //database
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference().child("userExercise");
-        userDatabase = database.getReference().child("users");
+        //userDatabase = database.getReference().child("users");
+
+        //setupUI
+        handler = new Handler();
+        btnStart = (Button)findViewById(R.id.button_start);
+        btnEnd = (Button)findViewById(R.id.button_end);
+        btnReset = (Button)findViewById(R.id.button_reset);
+        tvStopwatchName = (TextView) findViewById(R.id.stopwatch_name);
+        tvVideoName = (TextView) findViewById(R.id.video_name);
+        tvBPM = (TextView) findViewById(R.id.bpm);
 
         VideoView view = (VideoView)findViewById(R.id.video_view);
         MediaController mc= new MediaController(this);
@@ -161,31 +157,23 @@ public class Exercise extends YouTubeBaseActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         date = df.format(c);
 
-            userDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
-                        User u = userSnapShot.getValue(User.class);
-                        if(u.getUsername().equals(User.getInstance().getUsername())){
-                            key = userSnapShot.getKey();
-                        }
-                    }
+        er = new ExerciseRecord(date, type, timeRecord);
+        recordKey = mDatabase.child(key).push().getKey();
+        mDatabase.child(key).child(recordKey).setValue(er);
+        bpmDatabase = mDatabase.child(key).child(recordKey).child("pulseData");
+        bpmDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot userSnapShot : dataSnapshot.getChildren()){
+                    String s = userSnapShot.getValue(String.class);
+                    tempBPM = s;
+                    tvBPM.setText(tempBPM);
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-
-
-
-        //setupUI
-        handler = new Handler();
-        btnStart = (Button)findViewById(R.id.button_start);
-        btnEnd = (Button)findViewById(R.id.button_end);
-        btnReset = (Button)findViewById(R.id.button_reset);
-        tvStopwatchName = (TextView) findViewById(R.id.stopwatch_name);
-        tvVideoName = (TextView) findViewById(R.id.video_name);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         tvVideoName.setText(currentExerciseList[exerciseCounter]);
         btnEnd.setEnabled(false);
@@ -322,10 +310,10 @@ public class Exercise extends YouTubeBaseActivity {
             }
             else{
                 if(Seconds == 26){
-                    Toast.makeText(Exercise.this, "Time limit is near!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Exercise.this, "Time limit is near!", Toast.LENGTH_SHORT).show();
                 }
                 if(Seconds == 31){
-                    Toast.makeText(Exercise.this, "Time limit exceeded!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Exercise.this, "Time limit exceeded!", Toast.LENGTH_SHORT).show();
                 }
                 if (Seconds >= 25 && Seconds%2 == 0) {
                     tvStopwatchName.setTextColor(getResources().getColor(android.R.color.holo_red_light));
@@ -397,6 +385,7 @@ public class Exercise extends YouTubeBaseActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
+                        mDatabase.child(key).child(recordKey).removeValue();
                         arg0.cancel();
                         finish();
                     }
@@ -428,10 +417,8 @@ public class Exercise extends YouTubeBaseActivity {
         }
 
         timeRecord = temp;
-        er = new ExerciseRecord(date, type, timeRecord, feeling);
-        er.setData("96");
-        recordKey = mDatabase.child(key).push().getKey();
-        mDatabase.child(key).child(recordKey).setValue(er)
+        mDatabase.child(key).child(recordKey).child("time").setValue(timeRecord);
+        mDatabase.child(key).child(recordKey).child("feeling").setValue(feeling)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -441,6 +428,7 @@ public class Exercise extends YouTubeBaseActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        mDatabase.child(key).child(recordKey).removeValue();
                         Toast.makeText(Exercise.this, "Add exercise fail! Try again later.", Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -472,6 +460,15 @@ public class Exercise extends YouTubeBaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Exercise.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        mDatabase.child(key).child(recordKey).removeValue();
+        finish();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
@@ -489,8 +486,7 @@ public class Exercise extends YouTubeBaseActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        er.setUri(imgUri.getLastPathSegment());
-        mDatabase.child(key).child(recordKey).setValue(er);
+        mDatabase.child(key).child(recordKey).child("uri").setValue(imgUri.getLastPathSegment());
         uploadTask = usersRef.putFile(imgUri);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

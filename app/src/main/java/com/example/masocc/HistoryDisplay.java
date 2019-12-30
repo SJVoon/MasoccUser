@@ -79,7 +79,13 @@ public class HistoryDisplay extends AppCompatActivity {
         tvDate.setText(er.getDate());
         tvFeeling.setText(er.getFeeling());
         tvComment.setText(er.getComment());
-        tvData.setText(er.getData());
+        double bpm = 0;
+        List<String> arr = record.getPulseData();
+        for(String s : arr){
+            bpm += Double.parseDouble(s);
+        }
+        bpm = (bpm/arr.size());
+        tvData.setText(Integer.toString((int)bpm));
     }
 
 }

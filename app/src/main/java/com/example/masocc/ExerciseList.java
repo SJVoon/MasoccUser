@@ -76,7 +76,9 @@ public class ExerciseList extends AppCompatActivity {
                 editor.putString("timelist",exerciseTimeList.toString());
                 editor.putString("videoType", type);
                 editor.apply();
-                startActivity(new Intent(ExerciseList.this, Exercise.class));
+                Intent myIntent = new Intent(ExerciseList.this, Exercise.class);
+                //myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(myIntent);
             }
         });
 

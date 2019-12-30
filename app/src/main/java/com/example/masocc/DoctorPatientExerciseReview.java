@@ -123,7 +123,13 @@ public class DoctorPatientExerciseReview extends AppCompatActivity {
         tvType.setText(record.getType());
         tvDate.setText(record.getDate());
         tvFeeling.setText(record.getFeeling());
-        tvData.setText(record.getData());
+        double bpm = 0;
+        List<String> arr = record.getPulseData();
+        for(String s : arr){
+            bpm += Double.parseDouble(s);
+        }
+        bpm = (bpm/arr.size());
+        tvData.setText(Integer.toString((int)bpm));
         etComment.setText(record.getComment());
 
         if(!record.getUri().isEmpty() || !record.getUri().matches("")) {

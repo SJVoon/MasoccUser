@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Recent Assessment Date"
+                    android:text="Patient IC No"
                     android:textColor="#000"
                     android:textSize="16dp"
                     android:textStyle="bold" />

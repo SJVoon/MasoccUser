@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myIntent1 = new Intent(MainActivity.this, ExerciseList.class);
 
         sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         btnStartExercise = findViewById(R.id.button_exercise_one);
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("type", "exercise level one");
                 editor.apply();
-                startActivity(new Intent(MainActivity.this, ExerciseList.class));
+                startActivity(myIntent1);
             }
         });
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("type", "exercise level two");
                 editor.apply();
-                startActivity(new Intent(MainActivity.this, ExerciseList.class));
+                startActivity(myIntent1);
             }
         });
 
@@ -61,14 +62,17 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.navigation_dashboard:
                         myIntent2 = new Intent(MainActivity.this, Assessment.class);
+                        myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_history:
                         myIntent3 = new Intent(MainActivity.this, History.class);
+                        myIntent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent3);
                         return true;
                     case R.id.navigation_profile:
                         myIntent4 = new Intent(MainActivity.this, Profile.class);
+                        myIntent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent4);
                         return true;
                 }

@@ -44,6 +44,7 @@ public class History extends AppCompatActivity {
     private ImageView day1, day2, day3;
     String key;
     SharedPreferences sharedPreferences;
+    ValueEventListener vel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +59,27 @@ public class History extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         myIntent1 = new Intent(History.this,MainActivity.class);
+                        myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        exerciseReference.removeEventListener(vel);
                         startActivity(myIntent1);
+                        finish();
                         return true;
                     case R.id.navigation_dashboard:
                         myIntent2 = new Intent(History.this, Assessment.class);
+                        myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        exerciseReference.removeEventListener(vel);
                         startActivity(myIntent2);
+                        finish();
                         return true;
                     case R.id.navigation_history:
                         Toast.makeText(History.this, "You are on History page now", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.navigation_profile:
                         myIntent4 = new Intent(History.this, Profile.class);
+                        myIntent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        exerciseReference.removeEventListener(vel);
                         startActivity(myIntent4);
+                        finish();
                         return true;
                 }
                 return false;
@@ -86,7 +96,7 @@ public class History extends AppCompatActivity {
         exerciseReference = database.getReference().child("userExercise").child(key);
         exerciseList = new ArrayList<>();
 
-        exerciseReference.addValueEventListener(new ValueEventListener() {
+        vel = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 exerciseList.clear();
@@ -101,7 +111,9 @@ public class History extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
-        });
+        };
+
+        exerciseReference.addValueEventListener(vel);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         layoutManager = new LinearLayoutManager(this);
@@ -123,6 +135,7 @@ public class History extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        exerciseReference.removeEventListener(vel);
         overridePendingTransition(0, 0);
     }
 
@@ -166,14 +179,26 @@ public class History extends AppCompatActivity {
         }
 
         if(temp.size() > 0) {
-            int bpm = 0;
+            double bpm = 0, tempBpm = 0;
             for (ExerciseRecord er : temp) {
-                bpm += Integer.parseInt(er.getData());
+                List<String> arr = er.getPulseData();
+                tempBpm = 0;
+                for(String s : arr){
+//                    s = s.substring(0,s.length()-2);
+                    tempBpm += Double.parseDouble(s);
+                }
+                bpm += (tempBpm/arr.size());
             }
             bpm = bpm / temp.size();
-            tvBpm.setText(Integer.toString(bpm));
+            tvBpm.setText(Integer.toString((int)bpm));
         }else{
             tvBpm.setText("BPM");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(myIntent1);
     }
 }

@@ -58,6 +58,7 @@ public class Assessment extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         myIntent1 = new Intent(Assessment.this, MainActivity.class);
+                        myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_dashboard:
@@ -65,10 +66,12 @@ public class Assessment extends AppCompatActivity {
                         return true;
                     case R.id.navigation_history:
                         myIntent3 = new Intent(Assessment.this, History.class);
+                        myIntent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent3);
                         return true;
                     case R.id.navigation_profile:
                         myIntent4 = new Intent(Assessment.this, Profile.class);
+                        myIntent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent4);
                         return true;
                 }
@@ -93,21 +96,6 @@ public class Assessment extends AppCompatActivity {
         //database
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference().child("weeklyAssessment");
-
-//        mDatabase = mDatabase.child("" +User.getInstance().getUsername());
-//        mDatabase = mDatabase.child(date);
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot userSnapShot : dataSnapshot.getChildren()) {
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
 
         //setupUI
         btnSubmit = (Button)findViewById(R.id.button_submit);
@@ -138,6 +126,12 @@ public class Assessment extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     public void save(){

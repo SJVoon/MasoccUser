@@ -48,14 +48,17 @@ public class DoctorEditProfile extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_exercise:
                         myIntent1 = new Intent(DoctorEditProfile.this, DoctorPatientList.class);
+                        myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_assessment:
                         myIntent2 = new Intent(DoctorEditProfile.this, DoctorPatientAssList.class);
+                        myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_profile:
                         myIntent4 = new Intent(DoctorEditProfile.this, DoctorProfile.class);
+                        myIntent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent4);
                         return true;
                 }

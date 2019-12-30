@@ -1,33 +1,51 @@
 package com.example.masocc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseRecord {
-    private String date, type, feeling, comment;
-    private String data, uri;
-    private List<String> time;
-    //private boolean start, finish;
+    private String date, type, feeling, comment, uri;
+    private List<String> time, pulseData, pedoData;
+
+    public List<String> getPulseData() {
+        return pulseData;
+    }
+
+    public void setPulseData(List<String> pulseData) {
+        this.pulseData = pulseData;
+    }
+
+    public List<String> getPedoData() {
+        return pedoData;
+    }
+
+    public void setPedoData(List<String> pedoData) {
+        this.pedoData = pedoData;
+    }
 
     public ExerciseRecord(){
 
     }
 
-    public ExerciseRecord(String date, String type, List<String> time, String feeling,String comment, String data){
-        this.date = date;
-        this.type = type;
-        this.time = time;
-        this.feeling = feeling;
-        this.comment = comment;
-        this.data = data;
-    }
+//    public ExerciseRecord(String date, String type, List<String> time, String feeling,String comment, String data){
+//        this.date = date;
+//        this.type = type;
+//        this.time = time;
+//        this.feeling = feeling;
+//        this.comment = comment;
+//        this.data = data;
+//    }
 
-    public ExerciseRecord(String date, String type, List<String> time, String feeling){
+    public ExerciseRecord(String date, String type, List<String> time){
         this.date = date;
         this.type = type;
         this.time = time;
-        this.feeling = feeling;
+        this.feeling = "";
         this.comment = "";
-        this.data = "";
+        this.pulseData = new ArrayList<>();
+        this.pulseData.add("90");
+        this.pedoData = new ArrayList<>();
+        this.pedoData.add("50");
         this.uri = "";
     }
 
@@ -36,10 +54,6 @@ public class ExerciseRecord {
     public void setType(String type) { this.type = type; }
 
     public void setFeeling(String feeling) { this.feeling = feeling; }
-
-    public String getData() { return data; }
-
-    public void setData(String data) { this.data = data; }
 
     public void setTime(List<String> time) { this.time = time; }
 

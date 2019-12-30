@@ -48,18 +48,22 @@ public class EditProfile extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         myIntent1 = new Intent(EditProfile.this, MainActivity.class);
+                        myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_dashboard:
                         myIntent2 = new Intent(EditProfile.this, Assessment.class);
+                        myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_history:
                         myIntent3 = new Intent(EditProfile.this, History.class);
+                        myIntent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent3);
                         return true;
                     case R.id.navigation_profile:
                         myIntent4 = new Intent(EditProfile.this, Profile.class);
+                        myIntent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent4);
                         return true;
                 }

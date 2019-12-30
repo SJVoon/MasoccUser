@@ -34,14 +34,17 @@ public class Profile extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         myIntent1 = new Intent(Profile.this, MainActivity.class);
+                        myIntent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent1);
                         return true;
                     case R.id.navigation_dashboard:
                         myIntent2 = new Intent(Profile.this, Assessment.class);
+                        myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent2);
                         return true;
                     case R.id.navigation_history:
                         myIntent3 = new Intent(Profile.this, History.class);
+                        myIntent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent3);
                         return true;
                     case R.id.navigation_profile:
@@ -102,6 +105,7 @@ public class Profile extends AppCompatActivity {
                         editor.putInt("login", 0);
                         editor.apply();
                         myIntent4 = new Intent(Profile.this, SignIn.class);
+                        myIntent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(myIntent4);
                         finish();
                     }
@@ -119,5 +123,9 @@ public class Profile extends AppCompatActivity {
         alertDialog.show();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(myIntent1);
+    }
 }

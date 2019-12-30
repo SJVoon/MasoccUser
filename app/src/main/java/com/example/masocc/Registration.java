@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Registration extends AppCompatActivity {
+public class      Registration extends AppCompatActivity {
 
     private TextView text;
     private EditText etUsername, etICNumber, etEmail, etHandphoneNumber, etPassword, etConfirmPassword, etFullName;
@@ -63,6 +63,7 @@ public class Registration extends AppCompatActivity {
         setupUI();
 
         final Intent myIntent = new Intent(this, SignIn.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         text.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(myIntent);

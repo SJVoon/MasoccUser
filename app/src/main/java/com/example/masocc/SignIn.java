@@ -61,7 +61,9 @@ public class SignIn extends AppCompatActivity{
         doctorList = new ArrayList<>();
         tempKeyList = new ArrayList<>();
         final Intent myIntent = new Intent(this, MainActivity.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         final Intent myIntentDoc = new Intent(this, DoctorPatientList.class);
+        myIntentDoc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         sharedPreferences = getSharedPreferences("autoLogin", Context.MODE_PRIVATE);
         int j = sharedPreferences.getInt("login", 0);
         int k = sharedPreferences.getInt("user", 0);
@@ -139,6 +141,7 @@ public class SignIn extends AppCompatActivity{
         });
 
         final Intent tempIntent = new Intent(this, DoctorChangePassword.class);
+        tempIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -200,6 +203,7 @@ public class SignIn extends AppCompatActivity{
         });
 
         final Intent myIntent2 = new Intent(this, Registration.class);
+        myIntent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         tvRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -210,12 +214,37 @@ public class SignIn extends AppCompatActivity{
         tvForgetPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(checkBox.isChecked()){
-                    doctorForgetPasswordDialog();
-                }
-                else{
-                    userForgetPasswordDialog();
-                }
+//                if(checkBox.isChecked()){
+//                    doctorForgetPasswordDialog();
+//                }
+//                else{
+//                    userForgetPasswordDialog();
+//                }
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignIn.this);
+                alertDialogBuilder.setMessage("What is your registered e-mail address? We will send reset credentials for you.");
+                final EditText input = new EditText(SignIn.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                alertDialogBuilder.setView(input);
+                alertDialogBuilder.setPositiveButton(Html.fromHtml("<font color='#228B22'>Save</font>"),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                arg0.cancel();
+
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton(Html.fromHtml("<font color='#DC143C'>Cancel</font>"),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                arg0.cancel();
+
+                            }
+                        });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
     }
